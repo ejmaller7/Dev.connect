@@ -1,0 +1,26 @@
+{
+  "name": "dev.connect",
+  "version": "1.0.0",
+  "description": "This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "install": "cd client && npm install --include=dev && cd ../server && npm install --include=dev",
+    "build": "cd client && npm run build && cd ../server && npm run build",
+    "seed": "cd server && npm run seed",
+    "client:dev": "cd client && npm run dev",
+    "start": "npm run server"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ejmaller7/Dev.connect.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/ejmaller7/Dev.connect/issues"
+  },
+  "homepage": "https://github.com/ejmaller7/Dev.connect#readme"
+}
