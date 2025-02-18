@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { useUser } from '../context/UserContext.jsx';
 import Logo from '../../assets/images/devconnect.jpg';
 import Searchbar from './Searchbar';
-import './Navbar.css';
+import '../css/Navbar.css';
 
 const NavBar = () => {
   const { user, logOut } = useUser();
