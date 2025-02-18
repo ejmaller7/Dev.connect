@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import '../css/Jobs.css'
+
 
 const Jobs = () => {
   const [jobs, setJobs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [selectedJob, setSelectedJob] = useState(null);
 
   useEffect(() => {
     const fetchJobs = async () => {
@@ -25,12 +28,21 @@ const Jobs = () => {
     fetchJobs();
   }, []);
 
+  const handleJobClick = (job) => {
+    setSelectedJob(job === selectedJob ? null : job); 
+  };
+
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString();  
+  };
+
   if (loading) {
-    return <div>Loading jobs...</div>;
+    return <div className="loading">Loading jobs...</div>;
   }
 
   if (error) {
-    return <div>Error: {error}</div>;
+    return <div className="error">Error: {error}</div>;
   }
 
   return (
@@ -41,13 +53,27 @@ const Jobs = () => {
       ) : (
         <ul>
           {jobs.map((job) => (
-            <li key={job.id}>
-              <h3>{job.position}</h3>
-              <p><strong>Company:</strong> {job.company}</p>
-              <p><strong>Location:</strong> {job.location || 'Remote'}</p>
-              <p><strong>Tags:</strong> {job.tags?.join(', ') || 'N/A'}</p>
-              <p><strong>Description:</strong> {job.description}</p>
-              <a href={job.apply_url} target="_blank" rel="noopener noreferrer">Apply Here</a>
+            <li key={job.id} className="job-item">
+              <h3 onClick={() => handleJobClick(job)}>
+                <p>{job.position} - {job.company}</p>
+                <span>{'Remote'}</span>
+                <p>{formatDate(job.date)}</p>
+              </h3>
+
+              {/* If the job is selected, display the additional details */}
+              {selectedJob && selectedJob.id === job.id && (
+                <div className="job-details">
+                  <p><strong>Location:</strong> {job.location || 'Remote'}</p>
+                  <p><strong>Tags:</strong> {job.tags?.join(', ') || 'N/A'}</p>
+                  <div><strong>Description:</strong></div>
+                  <div 
+                    className="job-description"
+                    dangerouslySetInnerHTML={{ __html: job.description }}
+                  />
+                  <p><strong>Salary:</strong> ${job.salary_min} - ${job.salary_max} per year</p>
+                  <a href={job.apply_url} target="_blank" rel="noopener noreferrer" className="apply-btn">Apply Here</a>
+                </div>
+              )}
             </li>
           ))}
         </ul>

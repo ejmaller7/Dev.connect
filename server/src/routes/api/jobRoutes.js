@@ -7,7 +7,7 @@ const router = express.Router();
 router.use(cors());
 
 router.get('/remote-jobs', async (req, res) => {
-  const url = 'https://remoteok.io/api';
+  const url = 'https://remoteok.com/api';
 
   try {
     console.log('Fetching data from:', url);
@@ -28,8 +28,6 @@ router.get('/remote-jobs', async (req, res) => {
         job.position.toLowerCase().includes('engineer')
       )
     );
-
-    console.log('Developer jobs:', developerJobs);
 
     res.json(developerJobs); 
   } catch (error) {
