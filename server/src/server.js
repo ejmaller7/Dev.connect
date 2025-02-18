@@ -1,9 +1,11 @@
-require('dotenv').config(); 
+import express from 'express';
+import cors from 'cors';
+// import mongoose from 'mongoose';
+import dotenv from 'dotenv';
 
-const express = require('express');
-const cors = require('cors');
+dotenv.config();
 
-const jobsRoutes = require('./routes/api/jobRoutes'); 
+import jobsRoutes from './routes/api/jobRoutes.js';
 
 const app = express();
 

@@ -1,8 +1,9 @@
-const express = require('express');
-const fetch = require('node-fetch');
+import express from 'express';
+import fetch from 'node-fetch';
+import cors from 'cors';  
+
 const router = express.Router();
 
-const cors = require('cors');
 router.use(cors());
 
 router.get('/remote-jobs', async (req, res) => {
@@ -37,4 +38,4 @@ router.get('/remote-jobs', async (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;
