@@ -46,7 +46,7 @@ const Jobs = () => {
   }
 
   return (
-    <div>
+    <div className="job-list-container">
       <h2>Developer Remote Jobs</h2>
       {jobs.length === 0 ? (
         <p>No jobs found</p>
@@ -55,22 +55,35 @@ const Jobs = () => {
           {jobs.map((job) => (
             <li key={job.id} className="job-item">
               <h3 onClick={() => handleJobClick(job)}>
-                <p>{job.position} - {job.company}</p>
+                {job.company_logo && (
+                  <img
+                    src={job.company_logo || 'default-logo.png'}
+                    alt={`${job.company} logo`}
+                    className="job-logo"
+                    onError={(e) => {
+                      // e.target.src = 'default-logo.png'; 
+                      // e.target.alt = ''; // Set an alternative description if the logo fails
+                    }}
+                  />
+                )} 
+                <p className="job-position">{job.position}</p>
+                <p className="job-company">Company: {job.company}</p>
+                <p className="job-date">Date Posted: {formatDate(job.date)}</p>
                 <span>{'Remote'}</span>
-                <p>{formatDate(job.date)}</p>
               </h3>
 
               {/* If the job is selected, display the additional details */}
               {selectedJob && selectedJob.id === job.id && (
                 <div className="job-details">
-                  <p><strong>Location:</strong> {job.location || 'Remote'}</p>
                   <p><strong>Tags:</strong> {job.tags?.join(', ') || 'N/A'}</p>
-                  <div><strong>Description:</strong></div>
-                  <div 
+                  <section className="job-description-container">
+                    <p><strong>Description:</strong></p>
+                    <article 
                     className="job-description"
                     dangerouslySetInnerHTML={{ __html: job.description }}
                   />
-                  <p><strong>Salary:</strong> ${job.salary_min} - ${job.salary_max} per year</p>
+                  </section>
+                  <p className="salary"><strong>Salary:</strong> ${job.salary_min} - ${job.salary_max} per year</p>
                   <a href={job.apply_url} target="_blank" rel="noopener noreferrer" className="apply-btn">Apply Here</a>
                 </div>
               )}
