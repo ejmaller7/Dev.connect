@@ -18,9 +18,9 @@ const Register = () => {
         }
         console.log("Registering:", emailOrUsername, password)
 
-        const registerURL = process.env.VITE_APP_URL === 'production'
+        const registerURL = import.meta.env.VITE_APP_ENV === 'production'
             ? 'https://dev-connect-invw.onrender.com/api/register'
-            : 'http://localhost:5173/api/register';
+            : 'http://localhost:5000/api/register';
 
         try {
             const response = await fetch(registerURL, {
