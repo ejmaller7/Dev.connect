@@ -6,6 +6,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 import jobsRoutes from './routes/api/jobRoutes.js';
+import userRoutes from './routes/api/userRoutes.js';
 
 const app = express();
 
@@ -13,6 +14,7 @@ app.use(express.json());
 app.use(cors());
 
 app.use('/api', jobsRoutes);
+app.use('/api', userRoutes);
 
 app.get('/', (req, res) => {
   res.send('Welcome to the Dev.Connect Backend API ');

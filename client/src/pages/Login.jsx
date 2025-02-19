@@ -13,8 +13,8 @@ const Login = () => {
         event.preventDefault();
 
         const loginURL = process.env.MONGODB_URI === 'production' 
-            ? 'https://dev-connect-invw.onrender.com/register' 
-            : 'http://localhost:5173/register';
+            ? 'https://dev-connect-invw.onrender.com/api/register' 
+            : 'http://localhost:5173/api/register';
         
         try {
             const response = await fetch(loginURL, {
