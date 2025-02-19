@@ -5,13 +5,19 @@ const UserSchema = new mongoose.Schema(
   {
     username: {
       type: String,
-      required: true,
+      required: function() {
+        // Username is required only if email is not provided
+        return !this.email;
+      },
       unique: true,
       trim: true,
     },
     email: {
       type: String,
-      required: true,
+      required: function() {
+        // Email is required only if username is not provided
+        return !this.username;
+      },
       unique: true,
       trim: true,
       lowercase: true,
@@ -47,3 +53,4 @@ UserSchema.pre("save", async function (next) {
 
 const User = mongoose.model("User", UserSchema);
 export default User;
+

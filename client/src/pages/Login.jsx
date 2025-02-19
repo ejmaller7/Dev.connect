@@ -12,9 +12,9 @@ const Login = () => {
     const handleLogin = async (event) => {
         event.preventDefault();
 
-        const loginURL = process.env.MONGODB_URI === 'production' 
-            ? 'https://dev-connect-invw.onrender.com/api/register' 
-            : 'http://localhost:5173/api/register';
+        const loginURL = import.meta.env.VITE_APP_ENV === 'production' 
+            ? 'https://dev-connect-invw.onrender.com/api/login' 
+            : 'http://localhost:5173/api/login';
         
         try {
             const response = await fetch(loginURL, {
@@ -37,6 +37,8 @@ const Login = () => {
 
             const text = await response.text();
             const data = text ? JSON.parse(text) : {};
+
+            console.log("USER: ", data)
 
             logIn(data);
             localStorage.setItem('jwtToken', data.token);
