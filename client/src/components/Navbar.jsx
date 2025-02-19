@@ -73,7 +73,7 @@ const NavBar = () => {
                       <button onClick={() => navigate('/login')}>Login</button>
                     </li>
                     <li>
-                      <button onClick={() => navigate('/createaccount')}>Create Account</button>
+                      <button onClick={() => navigate('/register')}>Register</button>
                     </li>
                   </>
                 )}

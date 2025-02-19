@@ -12,7 +12,9 @@ const Login = () => {
     const handleLogin = async (event) => {
         event.preventDefault();
 
-        const loginURL = `${import.meta.env.VITE_API_URL}/api/users/login`;
+        const loginURL = process.env.MONGODB_URI === 'production' 
+            ? 'https://dev-connect-invw.onrender.com/register' 
+            : 'http://localhost:5173/register';
         
         try {
             const response = await fetch(loginURL, {
