@@ -5,9 +5,7 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-import jobsRoutes from './routes/api/jobRoutes.js';
-import userRoutes from './routes/api/userRoutes.js';
-import newsRoutes from './routes/api/newsRoutes.js';
+import routes from './routes/index.js'
 
 const app = express();
 
@@ -19,9 +17,7 @@ mongoose.connect(process.env.MONGODB_URI)
 app.use(express.json()); 
 app.use(cors());
 
-app.use('/api', jobsRoutes);
-app.use('/api', userRoutes);
-app.use('/api', newsRoutes)
+app.use('/api', routes)
 
 app.get('/', (req, res) => {
   res.send('Welcome to the Dev.Connect Backend API ');
