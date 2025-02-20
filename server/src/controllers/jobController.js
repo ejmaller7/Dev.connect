@@ -36,7 +36,7 @@ export const getOnSiteJobs = async (req, res) => {
   try {
     const response = await fetch(apiUrl, {
       method: 'GET',
-      headers: { 'Authorization': `Token 9868b5ad5619fe6d0d5e64c103bfb583ccc1d1de` }
+      headers: { 'Authorization': `Token ${process.env.ONSITE_JOB_API_KEY}` }
     });
 
     if (!response.ok) throw new Error('Failed to fetch on-site job data');

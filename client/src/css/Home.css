@@ -1,0 +1,168 @@
+.home-container {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+    color: #333333;
+    text-align: center;
+  }
+  
+  .home-title {
+    color: #333333;
+    font-size: 28px;
+    margin-bottom: 20px;
+  }
+  
+  .article-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  .article-item {
+    background-color: #e8f7fa;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    max-width: 500px;
+    width: 100%;
+    margin: 20px;
+  }
+  
+  .article-item:hover {
+    background-color: #d1f1f9;
+    transform: translateY(-5px);
+  }
+  
+  .article-title {
+    font-size: 24px;
+    color: #ff7f50;
+    font-weight: bold;
+    text-align: center;
+  }
+  
+  .article-description {
+    font-size: 16px;
+    color: #777777;
+    text-align: center;
+    margin: 10px 0;
+  }
+  
+  .read-more {
+    margin-top: 10px;
+    padding: 10px 20px;
+    background-color: #ffb6c1;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .read-more:hover {
+    background-color: #ff8da0;
+  }
+  
+  .article-image {
+    max-width: 100%;
+    height: auto;
+    margin: 20px 0;
+  }
+  
+  .publish-info {
+    font-size: 12px;
+    color: #777777;
+  }
+  
+  .show-more {
+    background-color: transparent;
+    color: #007bff;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    text-decoration: underline;
+    margin-top: 20px;
+    transition: color 0.3s ease, text-decoration 0.3s ease;
+  }
+  
+  .show-more:hover {
+    color: #0056b3;
+    text-decoration: none;
+  }
+  
+  .show-more:focus {
+    outline: none;
+  }
+  
+  .loading {
+    text-align: center;
+    font-size: 18px;
+    color: #ff7f50;
+  }
+  
+  @media (prefers-color-scheme: dark) {
+    .home-container {
+      background-color: #121212;
+      color: #ffffff;
+    }
+  
+    .home-title {
+      color: #ffffff;
+    }
+  
+    .article-item {
+      background-color: #1E1E1E;
+      color: #ffffff;
+    }
+  
+    .article-item:hover {
+      background-color: #333333;
+    }
+  
+    .article-title {
+      color: #4C8BF5;
+    }
+  
+    .read-more {
+      background-color: #4C8BF5;
+      color: #ffffff;
+    }
+  
+    .read-more:hover {
+      background-color: #357ABD;
+    }
+  
+    .publish-info {
+      color: #dcdcdc;
+    }
+  
+    .show-more {
+      color: #4C8BF5;
+      text-decoration: underline;
+    }
+  
+    .show-more:hover {
+      color: #357ABD;
+      text-decoration: none;
+    }
+  
+    .show-more:focus {
+      outline: none;
+    }
+  
+    .loading {
+      color: #ffffff;
+    }
+  }
+  
+  
+  

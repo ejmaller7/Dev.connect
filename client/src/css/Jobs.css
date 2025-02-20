@@ -1,6 +1,6 @@
 .job-list-container {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    max-width: auto;
+    max-width: 100%;
     margin: 0 auto;
     padding: 20px;
     background-color: #ffffff;
