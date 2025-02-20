@@ -17,7 +17,7 @@ mongoose.connect(process.env.MONGODB_URI)
 app.use(express.json()); 
 app.use(cors());
 
-app.use('/api', routes)
+app.use(routes)
 
 app.get('/', (req, res) => {
   res.send('Welcome to the Dev.Connect Backend API ');
