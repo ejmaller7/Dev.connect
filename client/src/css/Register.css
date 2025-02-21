@@ -1,0 +1,48 @@
+.register-container {
+display: flex;
+flex-direction: column;
+align-items: center;
+height: 100vh;
+background-color: #f8f9fa;
+}
+
+.register-form {
+background: white;
+padding: 2rem;
+border-radius: 8px;
+box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+width: 350px;
+text-align: center;
+}
+
+.register-input {
+width: 90%;
+padding: 10px;
+margin: 10px 0;
+border: 1px solid #ccc;
+border-radius: 5px;
+}
+
+.register-button {
+width: 100%;
+padding: 10px;
+background-color: #007bff;
+color: white;
+border: none;
+cursor: pointer;
+border-radius: 5px;
+}
+
+.register-button:hover {
+background-color: #0056b3;
+}
+
+.error {
+color: red;
+font-size: 0.9rem;
+}
+
+.success {
+color: green;
+font-size: 0.9rem;
+}

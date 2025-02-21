@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useUser } from '../context/Auth';
+import '../css/Login.css';
 
 const Login = () => {
     const [email, setEmail] = useState('');
@@ -49,14 +50,15 @@ const Login = () => {
     };
 
     return (
-        <div>
+        <div className='login-container'>
             <h2>{user ? `Welcome, ${user.username || 'User'}!` : 'Log In'}</h2>
 
             {!user ? (
-                <form onSubmit={handleLogin}>
+                <form className='login-form' onSubmit={handleLogin}>
                     <div>
                         <label htmlFor="email">Email</label>
                         <input
+                            className='login-input'
                             type="email"
                             id="email"
                             value={email}
@@ -68,6 +70,7 @@ const Login = () => {
                     <div>
                         <label htmlFor="password">Password</label>
                         <input
+                            className='login-input'
                             type="password"
                             id="password"
                             value={password}
@@ -78,7 +81,7 @@ const Login = () => {
 
                     {error && <p className="error">{error}</p>}
 
-                    <button type="submit">Log In</button>
+                    <button className='login-button' type="submit">Log In</button>
                 </form>
             ) : (
                 <p>You are already signed in as {user.username}.</p>

@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import '../css/Register.css';
 
 const Register = () => {
     const [username, setUsername] = useState('');
@@ -61,12 +62,13 @@ const Register = () => {
     };
 
     return (
-        <div>
+        <div className='register-container'>
             <h2>Register</h2>
-            <form onSubmit={handleSubmit}>
+            <form className='register-form' onSubmit={handleSubmit}>
                 <div>
                     <label htmlFor="username">Username</label>
                     <input
+                        className='register-input'
                         type="text"
                         id="username"
                         value={username}
@@ -78,6 +80,7 @@ const Register = () => {
                 <div>
                     <label htmlFor="email">Email</label>
                     <input
+                        className='register-input'
                         type="email"
                         id="email"
                         value={email}
@@ -89,6 +92,7 @@ const Register = () => {
                 <div>
                     <label htmlFor="password">Password</label>
                     <input
+                        className='register-input'
                         type="password"
                         id="password"
                         value={password}
@@ -100,6 +104,7 @@ const Register = () => {
                 <div>
                     <label htmlFor="confirmPassword">Confirm Password</label>
                     <input
+                        className='register-input'
                         type="password"
                         id="confirmPassword"
                         value={confirmPassword}
@@ -111,7 +116,7 @@ const Register = () => {
                 {error && <p className="error">{error}</p>}
                 {success && <p className="success">{success}</p>}
 
-                <button type="submit">Register Account</button>
+                <button className='register-button' type="submit">Register Account</button>
             </form>
         </div>
     );
