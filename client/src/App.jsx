@@ -3,6 +3,7 @@ import { useState } from 'react'
 import Home from './pages/Home';
 import Jobs from './pages/Jobs';
 import Navbar from './components/Navbar';
+import Footer from './components/Footer'
 import Login from './pages/Login';
 import Register from './pages/Register'
 import { AuthProvider } from './context/Auth.jsx';
@@ -23,7 +24,7 @@ function App() {
         <Route path="/search-results" element={<SearchResults/>}/>
         <Route path="/welcome" element={<WelcomePage />}/>
       </Routes>
-      {/* <Footer /> */}
+      <Footer />
     </Router>
     </AuthProvider>
   )
