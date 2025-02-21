@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useUser } from '../context/Auth';
 
 const Login = () => {
-    const [emailOrUsername, setEmailOrUsername] = useState('');
+    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const { user, logIn } = useUser();
@@ -20,11 +20,10 @@ const Login = () => {
             const response = await fetch(loginURL, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ emailOrUsername, password }),
+                body: JSON.stringify({ email, password }), // Removed undefined 'username'
             });
 
-            if (response.ok) {
-                // Handle case where response might be empty
+            if (!response.ok) {
                 const errorText = await response.text(); 
                 try {
                     const errorData = JSON.parse(errorText);
@@ -35,14 +34,12 @@ const Login = () => {
                 return;
             }
 
-            const text = await response.text();
-            const data = text ? JSON.parse(text) : {};
+            const data = await response.json();
 
-            console.log("USER: ", data)
+            console.log("USER: ", data);
 
             logIn(data);
             localStorage.setItem('jwtToken', data.token);
-            console.log(`Welcome, ${emailOrUsername}`)
             navigate('/');
 
         } catch (error) {
@@ -53,35 +50,35 @@ const Login = () => {
 
     return (
         <div>
-            <h2>{user ? `Welcome, ${emailOrUsername}!` : 'Log In'}</h2>
+            <h2>{user ? `Welcome, ${user.username || 'User'}!` : 'Log In'}</h2>
 
             {!user ? (
                 <form onSubmit={handleLogin}>
-                <div>
-                    <label htmlFor="emailOrUsername">Email or Username</label>
-                    <input
-                    type="text"
-                    id="emailOrUsername"
-                    value={emailOrUsername}
-                    onChange={(e) => setEmailOrUsername(e.target.value)}
-                    required
-                    />
-                </div>
+                    <div>
+                        <label htmlFor="email">Email</label>
+                        <input
+                            type="email"
+                            id="email"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            required
+                        />
+                    </div>
 
-                <div>
-                    <label htmlFor="password">Password</label>
-                    <input
-                    type="password"
-                    id="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    required
-                    />
-                </div>
+                    <div>
+                        <label htmlFor="password">Password</label>
+                        <input
+                            type="password"
+                            id="password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            required
+                        />
+                    </div>
 
-                {error && <p className="error">{error}</p>}
+                    {error && <p className="error">{error}</p>}
 
-                <button type="submit">Log In</button>
+                    <button type="submit">Log In</button>
                 </form>
             ) : (
                 <p>You are already signed in as {user.username}.</p>

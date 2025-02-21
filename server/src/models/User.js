@@ -5,19 +5,13 @@ const UserSchema = new mongoose.Schema(
   {
     username: {
       type: String,
-      required: function() {
-        // Username is required only if email is not provided
-        return !this.email;
-      },
+      required: true,
       unique: true,
       trim: true,
     },
     email: {
       type: String,
-      required: function() {
-        // Email is required only if username is not provided
-        return !this.username;
-      },
+      required: true,
       unique: true,
       trim: true,
       lowercase: true,
