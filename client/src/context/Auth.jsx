@@ -8,24 +8,38 @@ export const AuthProvider = ({ children }) => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
 
     useEffect(() => {
-        // Check for authentication on mount
-        const token = localStorage.getItem('jwtToken');
-        setIsAuthenticated(!!token);
-      }, []);
+        // Load user from localStorage on page load
+        const storedUser = localStorage.getItem("user");
+        const token = localStorage.getItem("jwtToken");
 
+        if (storedUser && token) {
+            setUser(JSON.parse(storedUser));
+            setIsAuthenticated(true);
+        }
+    }, []);
+
+    // Login function
     const logIn = (userData) => {
-        setUser(userData);
+        localStorage.setItem("jwtToken", userData.token);
+        localStorage.setItem("user", JSON.stringify(userData.user));
+        setUser(userData.user);
+        setIsAuthenticated(true);
     };
 
+    // Logout function
     const logOut = () => {
+        localStorage.removeItem("jwtToken");
+        localStorage.removeItem("user");
         setUser(null);
+        setIsAuthenticated(false);
     };
 
     return (
-        <AuthContext.Provider value={{ isAuthenticated, setIsAuthenticated, user, logIn, logOut }}>
+        <AuthContext.Provider value={{ user, isAuthenticated, logIn, logOut }}>
             {children}
         </AuthContext.Provider>
     );
 };
 
+// Custom hook to access AuthContext
 export const useUser = () => useContext(AuthContext);

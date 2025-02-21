@@ -1,6 +1,6 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import { useUser } from '../context/UserContext.jsx';
+import { useUser } from '../context/Auth.jsx';
 import Logo from '../../assets/images/devconnect.jpg';
 import Searchbar from './Searchbar';
 import '../css/Navbar.css';
@@ -61,9 +61,6 @@ const NavBar = () => {
                       <button onClick={() => navigate('/profile')}>My Profile</button>
                     </li>
                     <li>
-                      <button onClick={() => navigate('/wishlist')}>Wishlist</button>
-                    </li>
-                    <li>
                       <button onClick={handleLogOut}>Log Out</button>
                     </li>
                   </>
@@ -82,7 +79,11 @@ const NavBar = () => {
           </li>
         </ul>
       </nav>
-      {user && <div className="welcome-message">Welcome, {user.username}!</div>}
+      {user ? (
+        <div className="welcome-message">Welcome, {user.username || "User"}!</div>
+      ) : (
+        <div className="welcome-message">Not logged in, please login first</div>
+      )}
       <div>
         <Searchbar onSearch={(term) => console.log("Search term:", term)} />
       </div>

@@ -6,14 +6,14 @@ import Jobs from './pages/Jobs';
 import Navbar from './components/Navbar';
 import Login from './pages/Login';
 import Register from './pages/Register'
-import { UserProvider } from './context/UserContext';
+import { AuthProvider } from './context/Auth.jsx';
 import SearchResults from './components/SearchResults';
 
 function App() {
   const [count, setCount] = useState(0)
 
   return (
-    <UserProvider>
+    <AuthProvider>
     <Router>
       <Navbar />
       <Routes>
@@ -25,7 +25,7 @@ function App() {
       </Routes>
       {/* <Footer /> */}
     </Router>
-    </UserProvider>
+    </AuthProvider>
   )
 }
 
