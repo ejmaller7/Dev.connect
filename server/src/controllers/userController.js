@@ -3,12 +3,12 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
 export const loginUser = async (req, res) => {
-    const { emailOrUsername, password } = req.body;
+    const { email, password } = req.body;
 
     try {
         // Check if the user exists by email or username
         const user = await User.findOne({
-            $or: [{ email: emailOrUsername }, { username: emailOrUsername }]
+            $or: [{ email: email }]
         });
 
         if (!user) {
@@ -33,15 +33,11 @@ export const loginUser = async (req, res) => {
 };
 
 export const registerUser = async (req, res) => {
-    const { emailOrUsername, password } = req.body;
+    const { email, username, password } = req.body;
 
     try {
-        // Determine if input is an email or username
-        const isEmail = emailOrUsername.includes("@");
-        const field = isEmail ? "email" : "username";
-
         // Check if the user already exists
-        const existingUser = await User.findOne({ [field]: emailOrUsername });
+        const existingUser = await User.findOne({ [field]: email || username });
         if (existingUser) {
             return res.status(400).json({ message: "User already exists" });
         }
@@ -51,7 +47,8 @@ export const registerUser = async (req, res) => {
 
         // Create a new user
         const newUser = new User({
-            [field]: emailOrUsername,
+            email: email,
+            username: username,
             password: hashedPassword,
         });
 
