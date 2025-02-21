@@ -1,42 +1,51 @@
 import React, { useState, useEffect } from 'react';
+import { useUser } from "../context/Auth";
+import { useNavigate } from "react-router-dom";
 import '../css/Home.css';  
 
 const Home = () => {
+  const { isAuthenticated, user } = useUser();
+  const navigate = useNavigate();
   const [articles, setArticles] = useState([]);
   const [loading, setLoading] = useState(true);
   const [visibleCount, setVisibleCount] = useState(6);  
+  const [authChecked, setAuthChecked] = useState(false); 
 
-  // Fetch articles when the component mounts
   useEffect(() => {
+    if (!authChecked) {
+      setAuthChecked(true);
+    } else if (!isAuthenticated) {
+      navigate("/welcome");
+    }
+  }, [isAuthenticated, navigate, authChecked]);
+
+  useEffect(() => {
+    if (!isAuthenticated) return;
+
     const fetchArticles = async () => {
       try {
         const response = await fetch('http://localhost:5000/api/news');
         const data = await response.json();
-
         if (response.ok) {
-          setArticles(data);  // Set the articles state
+          setArticles(data);
         } else {
-          console.error(data.message);  
+          console.error(data.message);
         }
       } catch (error) {
         console.error("Error fetching articles:", error);
       } finally {
-        setLoading(false);  
+        setLoading(false);
       }
     };
 
     fetchArticles();
-  }, []);
+  }, [isAuthenticated]);
 
-  
+  if (!authChecked) return null;
+
   if (loading) {
     return <div className="loading">Loading...</div>;
   }
-
-  // Handle "Show More" click to reveal more articles
-  const handleShowMore = () => {
-    setVisibleCount(prevCount => prevCount + 6);  
-  };
 
   return (
     <div className="home-container">
@@ -57,7 +66,7 @@ const Home = () => {
         ))}
       </div>
       {visibleCount < articles.length && (
-        <button className="show-more" onClick={handleShowMore}>
+        <button className="show-more" onClick={() => setVisibleCount(prevCount => prevCount + 6)}>
           Show More
         </button>
       )}
@@ -66,5 +75,7 @@ const Home = () => {
 };
 
 export default Home;
+
+
 
 

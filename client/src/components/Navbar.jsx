@@ -6,7 +6,7 @@ import Searchbar from './Searchbar';
 import '../css/Navbar.css';
 
 const NavBar = () => {
-  const { user, logOut } = useUser();
+  const { user, isAuthenticated, logOut } = useUser();  
   const navigate = useNavigate();
   const [isCategoryHovered, setIsCategoryHovered] = useState(false);
   const [isProfileHovered, setIsProfileHovered] = useState(false);
@@ -15,6 +15,9 @@ const NavBar = () => {
     logOut();
     navigate('/');
   };
+
+  // Only render Navbar if the user is authenticated
+  if (!isAuthenticated) return null;
 
   return (
     <header className="header">
