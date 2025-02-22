@@ -25,29 +25,15 @@ const Login = () => {
             });
 
             if (!response.ok) {
-<<<<<<< HEAD
                 const errorData = await response.json();
                 setError(errorData.message || 'Login attempt failed');
-=======
-                const errorText = await response.text(); 
-                try {
-                    const errorData = JSON.parse(errorText);
-                    setError(errorData.message || 'Login attempt failed');
-                } catch {
-                    setError('Login attempt failed (Invalid response from server)');
-                }
->>>>>>> 67856d434467b2ce51701b8ffdc23c88a27479c7
                 return;
             }          
 
             const data = await response.json();
 
-<<<<<<< HEAD
             console.log("USER: ", data)
             console.log("token: ", data.token)
-=======
-            console.log("USER: ", data);
->>>>>>> 67856d434467b2ce51701b8ffdc23c88a27479c7
 
             logIn(data.user, data.token);
             localStorage.setItem('jwtToken', data.token);
