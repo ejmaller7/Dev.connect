@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useUser } from '../context/Auth';
+import '../css/Login.css';
 
 const Login = () => {
-    const [emailOrUsername, setEmailOrUsername] = useState('');
+    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const { user, logIn } = useUser();
@@ -20,24 +21,36 @@ const Login = () => {
             const response = await fetch(loginURL, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ emailOrUsername, password }),
+                body: JSON.stringify({ email, password }), // Removed undefined 'username'
             });
 
             if (!response.ok) {
+<<<<<<< HEAD
                 const errorData = await response.json();
                 setError(errorData.message || 'Login attempt failed');
+=======
+                const errorText = await response.text(); 
+                try {
+                    const errorData = JSON.parse(errorText);
+                    setError(errorData.message || 'Login attempt failed');
+                } catch {
+                    setError('Login attempt failed (Invalid response from server)');
+                }
+>>>>>>> 67856d434467b2ce51701b8ffdc23c88a27479c7
                 return;
             }          
 
-            const text = await response.text();
-            const data = text ? JSON.parse(text) : {};
+            const data = await response.json();
 
+<<<<<<< HEAD
             console.log("USER: ", data)
             console.log("token: ", data.token)
+=======
+            console.log("USER: ", data);
+>>>>>>> 67856d434467b2ce51701b8ffdc23c88a27479c7
 
             logIn(data.user, data.token);
             localStorage.setItem('jwtToken', data.token);
-            console.log(`Welcome, ${emailOrUsername}`)
             navigate('/');
 
         } catch (error) {
@@ -47,36 +60,38 @@ const Login = () => {
     };
 
     return (
-        <div>
-            <h2>{user ? `Welcome, ${emailOrUsername}!` : 'Log In'}</h2>
+        <div className='login-container'>
+            <h2>{user ? `Welcome, ${user.username || 'User'}!` : 'Log In'}</h2>
 
             {!user ? (
-                <form onSubmit={handleLogin}>
-                <div>
-                    <label htmlFor="emailOrUsername">Email or Username</label>
-                    <input
-                    type="text"
-                    id="emailOrUsername"
-                    value={emailOrUsername}
-                    onChange={(e) => setEmailOrUsername(e.target.value)}
-                    required
-                    />
-                </div>
+                <form className='login-form' onSubmit={handleLogin}>
+                    <div>
+                        <label htmlFor="email">Email</label>
+                        <input
+                            className='login-input'
+                            type="email"
+                            id="email"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            required
+                        />
+                    </div>
 
-                <div>
-                    <label htmlFor="password">Password</label>
-                    <input
-                    type="password"
-                    id="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    required
-                    />
-                </div>
+                    <div>
+                        <label htmlFor="password">Password</label>
+                        <input
+                            className='login-input'
+                            type="password"
+                            id="password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            required
+                        />
+                    </div>
 
-                {error && <p className="error">{error}</p>}
+                    {error && <p className="error">{error}</p>}
 
-                <button type="submit">Log In</button>
+                    <button className='login-button' type="submit">Log In</button>
                 </form>
             ) : (
                 <p>You are already signed in as {user.username}.</p>
