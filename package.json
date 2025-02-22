@@ -26,6 +26,7 @@
   },
   "homepage": "https://github.com/ejmaller7/Dev.connect#readme",
   "dependencies": {
+    "bcryptjs": "^3.0.2",
     "concurrently": "^9.1.2",
     "dotenv": "^16.4.7"
   }

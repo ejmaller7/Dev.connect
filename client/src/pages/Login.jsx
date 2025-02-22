@@ -23,24 +23,19 @@ const Login = () => {
                 body: JSON.stringify({ emailOrUsername, password }),
             });
 
-            if (response.ok) {
-                // Handle case where response might be empty
-                const errorText = await response.text(); 
-                try {
-                    const errorData = JSON.parse(errorText);
-                    setError(errorData.message || 'Login attempt failed');
-                } catch {
-                    setError('Login attempt failed (Invalid response from server)');
-                }
+            if (!response.ok) {
+                const errorData = await response.json();
+                setError(errorData.message || 'Login attempt failed');
                 return;
-            }
+            }          
 
             const text = await response.text();
             const data = text ? JSON.parse(text) : {};
 
             console.log("USER: ", data)
+            console.log("token: ", data.token)
 
-            logIn(data);
+            logIn(data.user, data.token);
             localStorage.setItem('jwtToken', data.token);
             console.log(`Welcome, ${emailOrUsername}`)
             navigate('/');
