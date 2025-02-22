@@ -15,7 +15,7 @@ mongoose.connect(process.env.MONGODB_URI)
 
 
 app.use(express.json()); 
-app.use(cors({ origin: ['http://localhost:5173', 'https://null-labs-frontend.onrender.com'] }));
+app.use(cors({ origin: ['http://localhost:5173', 'https://dev-connect-1-eiz8.onrender.com'] }));
 
 app.use(routes)
 
