@@ -11,6 +11,8 @@ import SearchResults from './components/SearchResults';
 import WelcomePage from './pages/WelcomePage'
 import Profile from './pages/Profile.jsx';
 import EditProfile from './pages/EditProfile.jsx';
+import MessageBoard from './pages/MessageBoard.jsx'
+import PrivateMessages from './pages/PrivateMessages.jsx'
 
 function App() {
 
@@ -27,6 +29,8 @@ function App() {
         <Route path="/welcome" element={<WelcomePage />}/>
         <Route path='/profile' element={<Profile />}/>
         <Route path="/edit-profile" element={<EditProfile />} />
+        <Route path="/message-board" element={<MessageBoard />} />
+        <Route path="/private-messages" element={<PrivateMessages />} />
       </Routes>
       <Footer />
     </Router>
