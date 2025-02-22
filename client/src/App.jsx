@@ -9,6 +9,8 @@ import Register from './pages/Register'
 import { AuthProvider } from './context/Auth.jsx';
 import SearchResults from './components/SearchResults';
 import WelcomePage from './pages/WelcomePage'
+import Profile from './pages/Profile.jsx';
+import EditProfile from './pages/EditProfile.jsx';
 
 function App() {
 
@@ -23,6 +25,8 @@ function App() {
         <Route path='/register' element={<Register />}/>
         <Route path="/search-results" element={<SearchResults/>}/>
         <Route path="/welcome" element={<WelcomePage />}/>
+        <Route path='/profile' element={<Profile />}/>
+        <Route path="/edit-profile" element={<EditProfile />} />
       </Routes>
       <Footer />
     </Router>

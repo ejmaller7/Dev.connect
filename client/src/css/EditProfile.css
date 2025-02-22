@@ -1,0 +1,54 @@
+.edit-profile-container {
+    max-width: 600px;
+    margin: 2rem auto;
+    background: white;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.edit-profile-form {
+display: flex;
+flex-direction: column;
+}
+
+.edit-profile-form input,
+.edit-profile-form textarea {
+width: 100%;
+padding: 10px;
+margin: 10px 0;
+border: 1px solid #ccc;
+border-radius: 5px;
+}
+
+.edit-profile-form textarea {
+height: 80px;
+resize: vertical;
+}
+
+.edit-profile-form button {
+width: 100%;
+padding: 10px;
+background-color: #007bff;
+color: white;
+border: none;
+cursor: pointer;
+border-radius: 5px;
+margin-top: 10px;
+}
+
+.edit-profile-form .cancel-btn {
+background-color: #6c757d;
+}
+
+.edit-profile-form button:hover {
+background-color: #0056b3;
+}
+
+.message {
+margin-top: 10px;
+color: green;
+font-size: 0.9rem;
+}
+  

@@ -28,6 +28,18 @@ const UserSchema = new mongoose.Schema(
       type: String,
       default: "",
     },
+    githubUsername: {
+      type: String,
+      default: ""
+    },
+    experience: {
+      type: String,
+      default: "",
+    },
+    skills: {
+      type: String,
+      default: ""
+    },
     connections: [
       {
         type: mongoose.Schema.Types.ObjectId,

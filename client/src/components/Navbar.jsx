@@ -83,7 +83,7 @@ const NavBar = () => {
         </ul>
       </nav>
       {user ? (
-        <div className="welcome-message">Welcome, {user.username || "User"}!</div>
+        <div className="welcome-message">Welcome, {user?.username || "User"}!</div>
       ) : (
         <div className="welcome-message">Not logged in, please login first</div>
       )}
