@@ -35,7 +35,7 @@ const Login = () => {
             console.log("USER: ", data)
             console.log("token: ", data.token)
 
-            logIn(data.user, data.token);
+            logIn(data);
             localStorage.setItem('jwtToken', data.token);
             navigate('/');
 
