@@ -30,10 +30,13 @@ const NavBar = () => {
             <Link to="/" className="header__link">Home</Link>
           </li>
           <li>
-            <Link to="/message-board" className="header__link">Message Board</Link>
+            <Link to="/messages" className="header__link">Messages</Link>
           </li>
           <li>
             <Link to="/network" className="header__link">Network</Link>
+          </li>
+          <li>
+            <Link to="/news" className="header__link">News</Link>
           </li>
           <li>
             <Link to="/jobs" className="header__link">Jobs</Link>

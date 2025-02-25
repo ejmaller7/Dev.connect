@@ -1,4 +1,4 @@
-const PrivateMessages = () => {
+const Messages = () => {
 
     return (
         <div>
@@ -7,4 +7,4 @@ const PrivateMessages = () => {
     );
 };
 
-export default PrivateMessages;
+export default Messages;

@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { useState } from 'react'
-import Home from './pages/Home';
+import PostBoard from './pages/Home';
 import Jobs from './pages/Jobs';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer'
@@ -11,8 +11,9 @@ import SearchResults from './components/SearchResults';
 import WelcomePage from './pages/WelcomePage'
 import Profile from './pages/Profile.jsx';
 import EditProfile from './pages/EditProfile.jsx';
-import MessageBoard from './pages/MessageBoard.jsx'
-import PrivateMessages from './pages/PrivateMessages.jsx'
+// import MessageBoard from './pages/MessageBoard.jsx'
+import Messages from './pages/Messages.jsx'
+import News from './pages/News.jsx'
 
 function App() {
 
@@ -21,7 +22,7 @@ function App() {
     <Router>
       <Navbar />
       <Routes>
-        <Route path="/" element={<Home />}/> 
+        <Route path="/" element={<PostBoard />}/> 
         <Route path="/jobs" element={<Jobs />}/>
         <Route path="/login" element={<Login />}/>
         <Route path='/register' element={<Register />}/>
@@ -29,8 +30,8 @@ function App() {
         <Route path="/welcome" element={<WelcomePage />}/>
         <Route path='/profile' element={<Profile />}/>
         <Route path="/edit-profile" element={<EditProfile />} />
-        <Route path="/message-board" element={<MessageBoard />} />
-        <Route path="/private-messages" element={<PrivateMessages />} />
+        <Route path="/messages" element={<Messages />} />
+        <Route path="/news" element={<News />}/>
       </Routes>
       <Footer />
     </Router>
