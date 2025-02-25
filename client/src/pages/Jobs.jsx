@@ -17,15 +17,19 @@ const Jobs = () => {
       try {
         let jobData = [];
 
+        const jobsURL = import.meta.env.VITE_APP_ENV === 'production'
+        ? 'https://dev-connect-invw.onrender.com'
+        : 'http://localhost:5000';
+
         if (jobType === 'remote' || jobType === 'both') {
-          const remoteResponse = await fetch('http://localhost:5000/api/remote-jobs');
+          const remoteResponse = await fetch(`${jobsURL}/api/remote-jobs`);
           if (!remoteResponse.ok) throw new Error('Failed to fetch remote jobs');
           const remoteJobs = await remoteResponse.json();
           jobData = [...jobData, ...remoteJobs];
         }
 
         if (jobType === 'onsite' || jobType === 'both') {
-          const onsiteResponse = await fetch('http://localhost:5000/api/onsite-jobs');
+          const onsiteResponse = await fetch(`${jobsURL}/api/onsite-jobs`);
           console.log("response:", onsiteResponse)
           if (!onsiteResponse.ok) throw new Error('Failed to fetch on-site jobs');
           const onsiteJobs = await onsiteResponse.json();

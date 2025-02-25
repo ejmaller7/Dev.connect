@@ -22,9 +22,14 @@ const Home = () => {
   useEffect(() => {
     if (!isAuthenticated) return;
 
+    const newsURL = import.meta.env.VITE_APP_ENV === 'production'
+  ? 'https://dev-connect-invw.onrender.com'
+  : 'http://localhost:5000';
+
+
     const fetchArticles = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/news');
+        const response = await fetch(`${newsURL}/api/news`);
         const data = await response.json();
         if (response.ok) {
           setArticles(data);

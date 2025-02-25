@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import "../css/MessageBoard.css"; 
 
 const API_BASE_URL = import.meta.env.VITE_APP_ENV === "production"
-    ? "https://dev-connect-1-eiz8.onrender.com"
+    ? "https://dev-connect-invw.onrender.com"
     : "http://localhost:5000";
 
 const MessageBoard = () => {
