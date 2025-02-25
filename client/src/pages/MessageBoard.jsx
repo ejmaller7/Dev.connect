@@ -33,6 +33,7 @@ const MessageBoard = () => {
 
     const handleMessageSubmit = async (e) => {
         e.preventDefault();
+        console.log(message)
 
         if (!message.trim()) return;
 
@@ -45,6 +46,8 @@ const MessageBoard = () => {
                 },
                 body: JSON.stringify({ content: message }),
             });
+
+            console.log("response: ", response)
 
             if (!response.ok) {
                 console.error("Error posting message");
