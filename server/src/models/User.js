@@ -20,6 +20,14 @@ const UserSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    name: {
+      type: String,
+      default: "",
+    },
+    headline: {
+      type: String,
+      default: "",
+    },
     bio: {
       type: String,
       default: "",

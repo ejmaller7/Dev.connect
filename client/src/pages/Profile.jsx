@@ -27,8 +27,8 @@ const Profile = () => {
       <div className="profile-header">
         <img src={user?.profilePicture || "/default-avatar.png"} alt="Profile" className="profile-pic" />
         <h2>{user?.name || "Your Name"}</h2>
-        <p>{user?.headline || "Your Professional Headline"}</p>
-        <p>{user?.bio || "No bio available"}</p>
+        <h4>{user?.headline || "Your Professional Headline"}</h4>
+        <p className="profile-bio">{user?.bio || "No bio available"}</p>
         <p>GitHub: <a href={`https://github.com/${user?.githubUsername}`} target="_blank" rel="noopener noreferrer">{user?.githubUsername}</a></p>
       </div>
 
@@ -52,8 +52,8 @@ const Profile = () => {
           <p>No repositories linked</p>
         )}
       </div>
-      <button onClick={() => navigate("/edit-profile")}>Edit Profile</button>
-      <button onClick={handleLogOut}>Log Out</button>
+      <button className="button-edit" onClick={() => navigate("/edit-profile")}>Edit Profile</button>
+      <button className="button-logout"onClick={handleLogOut}>Log Out</button>
     </div>
   );
 };

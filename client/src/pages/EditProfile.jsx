@@ -24,6 +24,18 @@ const EditProfile = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const formDataToSend = {
+      userId: user._id,
+      name: formData.name,
+      headline: formData.headline,
+      bio: formData.bio,
+      githubUsername: formData.githubUsername,
+      experience: formData.experience,
+      skills: formData.skills,
+    };
+
+    console.log("Sending Update Data:", formDataToSend); // Debugging
     
     const editProfileURL = import.meta.env.VITE_APP_ENV === 'production' 
             ? 'https://dev-connect-invw.onrender.com/api/update-profile' 
@@ -36,7 +48,7 @@ const EditProfile = () => {
           "Content-Type": "application/json",
           Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
         },
-        body: JSON.stringify({ userId: user._id, ...formData }),
+        body: JSON.stringify(formDataToSend),
       });
 
       const data = await response.json();
@@ -51,8 +63,8 @@ const EditProfile = () => {
         setUser(data.user);
         localStorage.setItem("user", JSON.stringify(data.user)); // Update localStorage
         setMessage("Profile updated successfully!");
-        
         setTimeout(() => navigate("/profile"), 1500);
+
       } else {
       setMessage("Error: Missing username in response.");
       }
@@ -65,14 +77,13 @@ const EditProfile = () => {
   return (
     <div className="edit-profile-container">
       <h2>Edit Profile</h2>
-      <form onSubmit={handleSubmit} className="edit-profile-form">
+      <form onSubmit={handleSubmit} className="edit-profile-form" encType="multipart/form-data">
         <input type="text" name="name" value={formData.name} onChange={handleChange} placeholder="Name" required />
         <input type="text" name="headline" value={formData.headline} onChange={handleChange} placeholder="Headline" />
         <textarea name="bio" value={formData.bio} onChange={handleChange} placeholder="Bio"></textarea>
         <input type="text" name="githubUsername" value={formData.githubUsername} onChange={handleChange} placeholder="GitHub Username" />
         <textarea name="experience" value={formData.experience} onChange={handleChange} placeholder="Experience"></textarea>
         <textarea name="skills" value={formData.skills} onChange={handleChange} placeholder="Skills"></textarea>
-        
         {message && <p className="message">{message}</p>}
         
         <button type="submit">Save Changes</button>

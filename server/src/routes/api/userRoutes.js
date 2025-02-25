@@ -42,45 +42,30 @@ router.post('/register', async (req, res) => {
 });
 
 router.put("/update-profile", async (req, res) => {
-try {
-    console.log("Received profile update request:", req.body); // Debugging
+    try {
+        const { userId, name, headline, bio, githubUsername, experience, skills } = req.body;
 
-    const { userId, name, headline, bio, githubUsername, experience, skills } = req.body;
+        if (!userId) {
+            return res.status(400).json({ message: "User ID is required." });
+        }
 
-    if (!userId) {
-    return res.status(400).json({ message: "User ID is required." });
+        const updatedUser = await User.findByIdAndUpdate(
+            userId,
+            { name, headline, bio, githubUsername, experience, skills },
+            { new: true } // Ensures updated user is returned
+        );
+
+        if (!updatedUser) {
+            return res.status(404).json({ message: "User not found." });
+        }
+
+        console.log("Updated User Data:", updatedUser); // Debugging
+        res.status(200).json({ message: "Profile updated successfully", user: updatedUser });
+
+    } catch (error) {
+        console.error("Profile update error:", error);
+        res.status(500).json({ message: "Internal server error" });
     }
-
-    const updatedUser = await User.findByIdAndUpdate(
-    userId,
-    { name, headline, bio, githubUsername, experience, skills },
-    { new: true }
-    );
-
-    if (!updatedUser) {
-    return res.status(404).json({ message: "User not found." });
-    }
-
-    res.status(200).json({
-    message: "Profile updated successfully",
-    user: {
-        _id: updatedUser._id,
-        username: updatedUser.username, // Ensure username is returned
-        email: updatedUser.email,
-        name: updatedUser.name,
-        headline: updatedUser.headline,
-        bio: updatedUser.bio,
-        githubUsername: updatedUser.githubUsername,
-        experience: updatedUser.experience,
-        skills: updatedUser.skills,
-    },
-    });
-
-} catch (error) {
-    console.error("Profile update error:", error);
-    res.status(500).json({ message: "Internal server error" });
-}
 });
-
 
 export default router;

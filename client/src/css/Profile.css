@@ -12,11 +12,24 @@ text-align: center;
 margin-bottom: 2rem;
 }
 
+.profile-header h2 {
+    text-decoration: underline;
+}
+
+.profile-header h4 {
+    font-style: italic;
+    font-weight: 500;
+}
+
 .profile-pic {
 width: 120px;
 height: 120px;
 border-radius: 50%;
 object-fit: cover;
+}
+
+.profile-bio {
+    text-align: left;
 }
 
 .profile-section {
@@ -30,16 +43,33 @@ border-top: 1px solid #ddd;
 margin-bottom: 0.5rem;
 }
 
-button {
+.button-edit {
 background-color: #007bff;
+color: #ffff;
 border: none;
 padding: 10px 15px;
 margin-top: 1rem;
+margin-right: 10px;
 cursor: pointer;
-border-radius: 5px;
+border-radius: 4px;
 }
 
-button:hover {
+.button-logout {
+background-color: #007bff;
+color: #ffff;
+border: none;
+padding: 10px 15px;
+margin-top: 1rem;
+margin-left: 10px;
+cursor: pointer;
+border-radius: 4px;
+}
+
+.button-edit:hover {
+background-color: #0061c9;
+}
+
+.button-logout:hover {
 background-color: #0061c9;
 }
 
