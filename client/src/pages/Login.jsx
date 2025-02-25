@@ -23,7 +23,7 @@ const Login = () => {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ email, password }), // Removed undefined 'username'
             });
-
+            console.log(response)
             if (!response.ok) {
                 const errorData = await response.json();
                 setError(errorData.message || 'Login attempt failed');

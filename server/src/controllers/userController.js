@@ -7,9 +7,7 @@ export const loginUser = async (req, res) => {
 
     try {
         // Check if the user exists by email or username
-        const user = await User.findOne({
-            $or: [{ email: email }]
-        });
+        const user = await User.findOne({ email });
 
         if (!user) {
             return res.status(400).json({ message: "Invalid credentials" });
@@ -28,6 +26,7 @@ export const loginUser = async (req, res) => {
 
         res.json({ token, user });
     } catch (error) {
+        console.error("Login error:", error);
         res.status(500).json({ message: "Server error" });
     }
 };
