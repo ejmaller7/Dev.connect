@@ -2,8 +2,22 @@ import express from "express";
 import { loginUser } from "../../controllers/userController.js";
 import User from "../../models/User.js"
 import mongoose from "mongoose"
+import { CloudinaryStorage } from "multer-storage-cloudinary";
+import multer from "multer";
+import cloudinary from "../../config/cloudinary.js";
 
 const router = express.Router();
+
+// Set up Cloudinary storage engine
+const storage = new CloudinaryStorage({
+    cloudinary: cloudinary,
+    params: {
+        folder: "profile_pictures", // Folder name in Cloudinary
+        allowed_formats: ["jpg", "png", "jpeg"],
+    },
+});
+
+const upload = multer({ storage });
 
 router.post('/login', loginUser);
 router.post('/register', async (req, res) => {
@@ -65,6 +79,30 @@ router.put("/update-profile", async (req, res) => {
     } catch (error) {
         console.error("Profile update error:", error);
         res.status(500).json({ message: "Internal server error" });
+    }
+});
+
+// Profile Picture Upload Route
+router.post("/upload-profile-picture", upload.single("image"), async (req, res) => {
+    if (!req.file) {
+        return res.status(400).json({ message: "No file uploaded" });
+    }
+
+    try {
+        const { userId } = req.body;
+        const imageUrl = req.file.path;
+
+        // Update user profile with new image URL
+        const user = await User.findByIdAndUpdate(userId, { profilePicture: imageUrl }, { new: true });
+
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        res.status(200).json({ message: "Profile picture updated", profilePicture: imageUrl });
+    } catch (error) {
+        console.error("Upload error:", error);
+        res.status(500).json({ message: "Server error" });
     }
 });
 

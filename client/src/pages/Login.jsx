@@ -14,8 +14,8 @@ const Login = () => {
         event.preventDefault();
 
         const loginURL = import.meta.env.VITE_APP_ENV === 'production' 
-            ? 'https://dev-connect-invw.onrender.com/api/login' 
-            : 'http://localhost:5000/api/login';
+            ? 'https://dev-connect-invw.onrender.com/api/user/login' 
+            : 'http://localhost:5000/api/user/login';
         
         try {
             const response = await fetch(loginURL, {

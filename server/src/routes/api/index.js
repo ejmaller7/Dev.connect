@@ -7,7 +7,7 @@ import messageRoutes from './messageRoutes.js'
 const router = express.Router();
 
 router.use(jobsRoutes);
-router.use(userRoutes);
+router.use('/user', userRoutes);
 router.use(newsRoutes);
 router.use(messageRoutes)
 
