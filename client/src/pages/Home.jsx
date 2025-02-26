@@ -102,11 +102,11 @@ const PostBoard = () => {
                 {messages.slice(0, visibleCount).map((msg) => (
                     <div className="message-item" key={msg._id}>
                         <div className="message-header">
-                        {msg.user.profilePicture ? (
-                            <img src={msg.user.profilePicture} alt="User Profile" className="profile-picture" />
-                              ) : (
-                            <div className="default-profile">❓</div>
-                              )}
+                            {msg.user.profilePicture && msg.user.profilePicture.trim() !== "" ? (
+                                <img src={msg.user.profilePicture} alt="User Profile" className="profile-picture" />
+                            ) : (
+                                <div className="default-profile">❓</div>
+                            )}
                             <strong className="username">{msg.user?.username || "Unknown User"}</strong>
                         </div>
                         <p className="message-text">{msg.content}</p>
