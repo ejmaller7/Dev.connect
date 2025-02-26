@@ -46,3 +46,31 @@
    ```bash  
    git clone https://github.com/yourusername/dev-connect.git  
    cd dev-connect  
+2. **Install dependencies**:
+   ```bash  
+   npm install  
+   cd client  
+   npm install  
+3. **Set up enviroment variables**:
+        ```bash  
+   MONGO_URI=your_mongodb_atlas_connection_string  
+   JWT_SECRET=your_jwt_secret_key  
+4. **Run the application**:
+    ```bash  
+   npm run start 
+
+---
+
+## Contributing
+
+### We welcome contributions from the community! If you'd like to contribute, please follow these steps:
+1. Fork the repository.
+2. Create a new branch for your feature or bugfix.
+3. Commit your changes.
+4. Push your branch to your forked repository.
+5. Submit a pull request with a detailed description of your changes.
+
+---
+
+## License
+![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
