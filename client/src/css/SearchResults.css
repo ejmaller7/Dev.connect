@@ -1,24 +1,90 @@
-.job-details p strong {
-    color: #8fbc8f;
+.result-item {
+    border: 1px solid #ddd;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+    cursor: pointer;
 }
 
-.job-description-container {
-    max-height: 300px;
+.result-item.selected {
+    background-color: #f0f8ff;
+}
+
+.result-logo {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.result-title {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+}
+
+.result-subtitle {
+    font-size: 14px;
+    color: #777;
+}
+
+.result-badge {
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 12px;
+    text-transform: uppercase;
+    font-weight: bold;
+    background-color: #e0e0e0;
+    color: #333;
+}
+
+.salary {
+    background-color: #8fbc8f;
+    color: #fff;
+}
+
+.result-details {
+    margin-top: 10px;
+}
+
+.result-description-container {
+    max-height: 200px;
     overflow-y: auto;
 }
 
-.job-description {
-    margin-top: 10px;
+.result-description {
     font-size: 14px;
-    color: #555555;
+    color: #555;
     line-height: 1.6;
     white-space: pre-wrap;
 }
 
-.job-details a.apply-btn {
+.result-tags {
+    margin-top: 10px;
+}
+
+.result-tag {
+    background-color: #2980b9;
+    color: white;
+    padding: 5px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    margin-right: 5px;
+}
+
+.result-date {
+    font-size: 12px;
+    color: #666;
+    margin-top: 10px;
+}
+
+.result-action-btn {
     display: inline-block;
-    margin-top: 15px;
-    padding: 12px 25px;
+    margin-top: 10px;
+    padding: 8px 15px;
     background-color: #ffb6c1;
     color: white;
     text-decoration: none;
@@ -26,121 +92,47 @@
     transition: background-color 0.3s ease;
 }
 
-.job-details a.apply-btn:hover {
+.result-action-btn:hover {
     background-color: #ff8da0;
-}
-
-.job-details span {
-    display: inline-block;
-    padding: 4px 8px;
-    border-radius: 4px;
-    font-size: 14px;
-    color: #2980b9;
-    margin-top: 10px;
-}
-
-.job-details .salary {
-    font-size: 16px;
-    font-weight: bold;
-    color: #ffffff;
-}
-
-span {
-    display: inline-block;
-    padding: 4px 8px;
-    border-radius: 4px;
-    font-size: 14px;
-    color: #2980b9;
-    margin-right: 10px;
-    text-align: center;
-    width: fit-content;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-.location {
-    font-size: 16px;
-    color: #ff7f50;
-    margin-top: 10px;
-    font-weight: bold;
-    text-transform: uppercase;
-}
-
-a.apply-btn {
-    display: inline-block;
-    margin-top: 15px;
-    padding: 12px 25px;
-    background-color: #ffb6c1;
-    color: white;
-    text-decoration: none;
-    border-radius: 5px;
-    transition: background-color 0.3s ease;
-}
-
-a.apply-btn:hover {
-    background-color: #ff8da0;
-}
-
-.loading {
-    text-align: center;
-    font-size: 18px;
-    color: #ff7f50;
-}
-
-.error {
-    text-align: center;
-    font-size: 18px;
-    color: #E74C3C;
 }
 
 @media (prefers-color-scheme: dark) {
-    .job-list-container {
-        background-color: #121212;
-        color: #ffffff;
-    }
-
-    h2 {
-        color: #ffffff;
-    }
-
-    .job-item {
+    .result-item {
         background-color: #1E1E1E;
         color: #ffffff;
     }
-
-    .job-item:hover {
-        background-color: #333333;
+    
+    .result-item.selected {
+        background-color: #333;
     }
-
-    .job-title {
-        color: #4C8BF5;
-    }
-
-    .job-details {
-        background-color: #2b2b2b;
+    
+    .result-title, .result-subtitle {
         color: #ffffff;
     }
-
-    .job-description {
-        color: #dcdcdc;
-    }
-
-    .job-details span {
+    
+    .result-badge {
+        background-color: #555;
         color: #ffffff;
     }
-
-    .job-details a.apply-btn {
+    
+    .salary {
         background-color: #4C8BF5;
         color: #ffffff;
     }
-
-    .job-details a.apply-btn:hover {
+    
+    .result-description {
+        color: #dcdcdc;
+    }
+    
+    .result-tag {
+        background-color: #4C8BF5;
+    }
+    
+    .result-action-btn {
+        background-color: #4C8BF5;
+    }
+    
+    .result-action-btn:hover {
         background-color: #357ABD;
     }
-
-    .loading, .error {
-        color: #ffffff;
-    }
 }
-
-  

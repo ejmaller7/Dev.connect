@@ -13,6 +13,17 @@ const SearchBar = ({ onSearch }) => {
     setSearchTerm(event.target.value);
   };
 
+  // Handles category change
+  const handleCategoryChange = (event) => {
+    const newCategory = event.target.value;
+    setSearchCategory(newCategory);
+    
+    // Clear salary sort if not in jobs category
+    if (newCategory !== 'jobs') {
+      setSalarySort('');
+    }
+  };
+
   // Handles the search form submission
   const handleSearchSubmit = async (event) => {
     event.preventDefault();
@@ -36,11 +47,12 @@ const SearchBar = ({ onSearch }) => {
   return (
     <div className="search-container">
       <form onSubmit={handleSearchSubmit} className="search-form">
-        <div className="flex flex-row gap-2 items-center">
+        <div className="search-controls">
           <select
             value={searchCategory}
-            onChange={(e) => setSearchCategory(e.target.value)}
-            className="search-category"
+            onChange={handleCategoryChange}
+            className="category-select"
+            aria-label="Select search category"
           >
             <option value="all">All</option>
             <option value="messages">Messages</option>
@@ -53,7 +65,8 @@ const SearchBar = ({ onSearch }) => {
             <select
               value={salarySort}
               onChange={(e) => setSalarySort(e.target.value)}
-              className="salary-sort"
+              className="salary-sort-select"
+              aria-label="Sort jobs by salary"
             >
               <option value="">Sort by salary</option>
               <option value="asc">Lowest to Highest</option>
@@ -68,7 +81,9 @@ const SearchBar = ({ onSearch }) => {
             onChange={handleInputChange}
             className="search-input"
             required
+            aria-label="Search input"
           />
+          
           <button type="submit" className="search-button">
             Search
           </button>
