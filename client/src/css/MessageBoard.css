@@ -121,6 +121,37 @@
     gap: 10px;
 }
 
+.message-actions {
+    display: none;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.message-item:hover .message-actions {
+    display: flex;
+}
+
+.message-actions button {
+    background-color: #ff7f50;
+    color: white;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, opacity 0.3s ease;
+    font-size: 14px;
+    opacity: 0;
+}
+
+.message-item:hover .message-actions button {
+    opacity: 1;
+}
+
+.message-actions button:hover {
+    background-color: #e66a3c;
+}
+
+
 .show-more-btn {
     background-color: transparent;
     color: #007bff;
@@ -173,6 +204,15 @@
 
     .message-time {
         color: #dcdcdc;
+    }
+
+    .message-actions button {
+        background-color: #4C8BF5;
+        color: white;
+    }
+
+    .message-actions button:hover {
+        background-color: #357ABD;
     }
 
     .private-messages-btn {
