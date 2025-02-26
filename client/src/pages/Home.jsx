@@ -8,13 +8,24 @@ const API_BASE_URL = import.meta.env.VITE_APP_ENV === "production"
     : "http://localhost:5000";
 
 const PostBoard = () => {
-    const { isAuthenticated, user } = useUser();
-    const navigate = useNavigate();
-    const [messages, setMessages] = useState([]);
-    const [message, setMessage] = useState("");
-    const [visibleCount, setVisibleCount] = useState(10);
+  const { isAuthenticated, user } = useUser();
+  const navigate = useNavigate();
+  const [messages, setMessages] = useState([]);
+  const [message, setMessage] = useState("");
+  const [visibleCount, setVisibleCount] = useState(10);
+  const [authChecked, setAuthChecked] = useState(false);
+
+  useEffect(() => {
+      if (!authChecked) {
+          setAuthChecked(true);
+      } else if (!isAuthenticated) {
+          navigate("/welcome");
+      }
+  }, [isAuthenticated, navigate, authChecked]);
 
     useEffect(() => {
+      if (!isAuthenticated) return;
+
         const fetchMessages = async () => {
             try {
                 const response = await fetch(`${API_BASE_URL}/api/message-board`);
@@ -57,6 +68,7 @@ const PostBoard = () => {
             setMessage("");
             const newMessage = await response.json();
             setMessages((prevMessages) => [newMessage, ...prevMessages]);
+            console.log(newMessage)
         } catch (error) {
             console.error("Error posting message", error);
         }
