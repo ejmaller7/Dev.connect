@@ -27,37 +27,42 @@ const EditProfile = () => {
     setImage(e.target.files[0]);
   };
 
-  const handleUpload = async () => {
-    if (!image) return;
-
-    const formData = new FormData();
-    formData.append("image", image);
-    formData.append("userId", user._id);
-
-    const uploadProfilePicture = import.meta.env.VITE_APP_ENV === 'production' 
-            ? 'https://dev-connect-invw.onrender.com/api/user/upload-profile-picture' 
-            : 'http://localhost:5000/api/user/upload-profile-picture';
-
-    try {
-      const res = await fetch(uploadProfilePicture, {
-        method: "POST",
-        body: formData,
-      });
-
-      const data = await res.json();
-
-      if (data.profilePicture) {
-        setUser({ ...user, profilePicture: data.profilePicture });
-        localStorage.setItem("user", JSON.stringify({ ...user, profilePicture: data.profilePicture }));
-      }
-    } catch (error) {
-        console.error("Upload failed", error);
-    }
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setMessage('');
 
+    // Keep existing image if no new one is selected
+    let uploadedImageUrl = user.profilePicture;
+
+    const uploadProfilePicture = import.meta.env.VITE_APP_ENV === 'production' 
+      ? 'https://dev-connect-invw.onrender.com/api/user/upload-profile-picture' 
+      : 'http://localhost:5000/api/user/upload-profile-picture';
+
+    const editProfileURL = import.meta.env.VITE_APP_ENV === 'production' 
+            ? 'https://dev-connect-invw.onrender.com/api/user/update-profile' 
+            : 'http://localhost:5000/api/user/update-profile';
+
+    try {
+      if (image) {
+        const imageData = new FormData();
+        imageData.append("image", image);
+        imageData.append("userId", user._id);
+
+        const uploadResponse = await fetch(uploadProfilePicture, {
+            method: "POST",
+            body: imageData,
+        });
+
+        const uploadData = await uploadResponse.json();
+
+        if (uploadResponse.ok) {
+            uploadedImageUrl = uploadData.profilePicture; // Update profile pic URL
+        } else {
+            setMessage("Image upload failed.");
+            return;
+        }
+    }
+    
     const formDataToSend = {
       userId: user._id,
       name: formData.name,
@@ -68,42 +73,28 @@ const EditProfile = () => {
       skills: formData.skills,
     };
 
-    const editProfileURL = import.meta.env.VITE_APP_ENV === 'production' 
-            ? 'https://dev-connect-invw.onrender.com/api/user/update-profile' 
-            : 'http://localhost:5000/api/user/update-profile';
+    const response = await fetch(editProfileURL, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
+      },
+      body: JSON.stringify(formDataToSend),
+    });
 
-    console.log("Sending Update Data:", formDataToSend); // Debugging
+    const data = await response.json();
 
-    try {
-      const response = await fetch(editProfileURL, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
-        },
-        body: JSON.stringify({ userId: user._id, ...formData }),
-      });
-
-      const data = await response.json();
-      console.log("Server Response:", data); // Debugging
-
-      if (!response.ok) {
-        setMessage(data.message || "Error updating profile.");
-        return;
-      }
-        
-      if (data.user && data.user.username) {
-        setUser(data.user);
-        localStorage.setItem("user", JSON.stringify(data.user)); // Update localStorage
-        setMessage("Profile updated successfully!");
-        setTimeout(() => navigate("/profile"), 1500);
-
-      } else {
-        setMessage("Error: Missing username in response.");
-      }
+    if (response.ok) {
+      setUser(data.user);
+      localStorage.setItem("user", JSON.stringify(data.user));
+      setMessage('Profile updated successfully!');
+      setTimeout(() => navigate('/profile'), 1500);
+    } else {
+      setMessage('Error updating profile');
+    }
     } catch (error) {
-        console.error("Update error:", error);
-        setMessage("Something went wrong, please try again.");
+      console.error('Update error:', error);
+      setMessage('Something went wrong, please try again.');
     }
   };
 
@@ -113,7 +104,6 @@ const EditProfile = () => {
       <form onSubmit={handleSubmit} className="edit-profile-form" encType="multipart/form-data">
         {/* Profile Picture Upload */}
         <input type="file" onChange={handleFileChange} />
-        <button type="button" onClick={handleUpload}>Upload Picture</button>
 
         {/* Everything else in profile */}
         <input type="text" name="name" value={formData.name} onChange={handleChange} placeholder="Name" required />
@@ -122,6 +112,7 @@ const EditProfile = () => {
         <input type="text" name="githubUsername" value={formData.githubUsername} onChange={handleChange} placeholder="GitHub Username" />
         <textarea name="experience" value={formData.experience} onChange={handleChange} placeholder="Experience"></textarea>
         <textarea name="skills" value={formData.skills} onChange={handleChange} placeholder="Skills"></textarea>
+        
         {message && <p className="message">{message}</p>}
         
         <button type="submit">Save Changes</button>
