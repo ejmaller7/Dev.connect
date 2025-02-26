@@ -94,6 +94,33 @@
     color: #777;
 }
 
+.profile-picture {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.default-profile {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #ccc; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    font-weight: bold;
+    color: white;
+    text-align: center;
+}
+
+.message-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
 .show-more-btn {
     background-color: transparent;
     color: #007bff;
@@ -137,6 +164,11 @@
 
     .message-text {
         color: #ffffff;
+    }
+
+    .default-profile {
+        background-color: #555; 
+        color: #ddd;
     }
 
     .message-time {

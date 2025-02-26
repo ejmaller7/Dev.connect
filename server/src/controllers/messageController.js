@@ -9,7 +9,7 @@ export const createMessage = async (req, res) => {
         });
 
         await newMessage.save();
-        const populatedMessage = await newMessage.populate('user', 'username')
+        const populatedMessage = await newMessage.populate('user', 'username profilePicture')
 
 
         res.json(populatedMessage);
@@ -21,7 +21,7 @@ export const createMessage = async (req, res) => {
 
 export const getMessages = async (req, res) => {
     try {
-        const messages = await Message.find().populate("user", "username").sort({ createdAt: -1 });;
+        const messages = await Message.find().populate("user", "username profilePicture").sort({ createdAt: -1 });;
         res.status(200).json(messages);
     } catch (error) {
         res.status(500).json({ message: "Server error" });

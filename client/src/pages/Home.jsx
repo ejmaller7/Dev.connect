@@ -101,9 +101,15 @@ const PostBoard = () => {
             <div className="messages-container">
                 {messages.slice(0, visibleCount).map((msg) => (
                     <div className="message-item" key={msg._id}>
-                        <p className="message-text">
-                            <strong>{msg.user?.username || "Unknown User"}:</strong> {msg.content}
-                        </p>
+                        <div className="message-header">
+                        {msg.user.profilePicture ? (
+                            <img src={msg.user.profilePicture} alt="User Profile" className="profile-picture" />
+                              ) : (
+                            <div className="default-profile">❓</div>
+                              )}
+                            <strong className="username">{msg.user?.username || "Unknown User"}</strong>
+                        </div>
+                        <p className="message-text">{msg.content}</p>
                         <small className="message-time">{new Date(msg.createdAt).toLocaleString()}</small>
                     </div>
                 ))}
