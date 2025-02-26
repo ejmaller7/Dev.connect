@@ -69,8 +69,8 @@ const EditProfile = () => {
     };
 
     const editProfileURL = import.meta.env.VITE_APP_ENV === 'production' 
-            ? 'https://dev-connect-invw.onrender.com/api/update-profile' 
-            : 'http://localhost:5000/api/update-profile';
+            ? 'https://dev-connect-invw.onrender.com/api/user/update-profile' 
+            : 'http://localhost:5000/api/user/update-profile';
 
     console.log("Sending Update Data:", formDataToSend); // Debugging
 
