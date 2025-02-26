@@ -12,7 +12,17 @@ const Profile = () => {
     if (user?.githubUsername) {
       fetch(`https://api.github.com/users/${user.githubUsername}/repos`)
         .then((res) => res.json())
-        .then((data) => setGithubRepos(data))
+        .then((data) => {
+          const formattedRepos = data.map((repo) => ({
+            id: repo.id,
+            name: repo.name,
+            url: repo.html_url,
+            description: repo.description || "No description available",
+            language: repo.language || "Unknown",
+            image: `https://opengraph.githubassets.com/1/${user.githubUsername}/${repo.name}`,
+          }));
+          setGithubRepos(formattedRepos);
+        })
         .catch((err) => console.error("Error fetching GitHub repos:", err));
     }
   }, [user?.githubUsername]);
@@ -40,17 +50,22 @@ const Profile = () => {
 
       <div className="profile-section">
         <h3>GitHub Repositories</h3>
-        {githubRepos.length > 0 ? (
-          <ul>
-            {githubRepos.map((repo) => (
-              <li key={repo.id}>
-                <a href={repo.html_url} target="_blank" rel="noopener noreferrer">{repo.name}</a>
-              </li>
-            ))}
-          </ul>
-        ) : (
+        <div className="repo-grid">
+          {githubRepos.length > 0 ? (
+            githubRepos.map((repo) => (
+            <div key={repo.id} className="repo-card">
+              <img src={repo.image} alt={repo.name} className="repo-image" />
+              <div className="repo-content">
+                <h4><a href={repo.url} target="_blank" rel="noopener noreferrer">{repo.name}</a></h4>
+                <p>{repo.description}</p>
+                <span className="repo-language">{repo.language}</span>
+              </div>
+            </div>
+              ))
+            ) : (
           <p>No repositories linked</p>
         )}
+        </div>
       </div>
       <button className="button-edit" onClick={() => navigate("/edit-profile")}>Edit Profile</button>
       <button className="button-logout"onClick={handleLogOut}>Log Out</button>

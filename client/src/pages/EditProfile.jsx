@@ -39,8 +39,8 @@ const EditProfile = () => {
       : 'http://localhost:5000/api/user/upload-profile-picture';
 
     const editProfileURL = import.meta.env.VITE_APP_ENV === 'production' 
-            ? 'https://dev-connect-invw.onrender.com/api/user/update-profile' 
-            : 'http://localhost:5000/api/user/update-profile';
+      ? 'https://dev-connect-invw.onrender.com/api/user/update-profile' 
+      : 'http://localhost:5000/api/user/update-profile';
 
     try {
       if (image) {
