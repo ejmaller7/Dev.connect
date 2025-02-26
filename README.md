@@ -52,7 +52,7 @@
    cd client  
    npm install  
 3. **Set up enviroment variables**:
-        ```bash  
+   ```bash  
    MONGO_URI=your_mongodb_atlas_connection_string  
    JWT_SECRET=your_jwt_secret_key  
 4. **Run the application**:
