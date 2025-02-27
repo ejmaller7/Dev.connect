@@ -14,6 +14,12 @@
 
 ---
 
+## Deployment  
+The live version of Dev.Connect is hosted on Render:  
+[Dev.Connect on Render](https://dev-connect-1-eiz8.onrender.com/)
+
+---
+
 ## Tech Stack  
 
 ### Frontend  
