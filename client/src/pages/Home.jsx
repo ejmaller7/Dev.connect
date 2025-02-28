@@ -157,7 +157,7 @@ const PostBoard = () => {
             <p className="message-text">{msg.content}</p>
             <small className="message-time">{new Date(msg.createdAt).toLocaleString()}</small>
 
-            {msg.user._id === user._id && (
+            {msg.user && user && msg.user._id === user._id && (
               <div className="message-actions">
                 <button onClick={() => handleEditMessage(msg._id)}>Edit</button>
                 <button onClick={() => handleDeleteMessage(msg._id)}>Delete</button>

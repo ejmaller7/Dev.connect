@@ -13,7 +13,7 @@ const NavBar = () => {
   
   const handleLogOut = () => {
     logOut();
-    navigate('/');
+    navigate('/welcome');
   };
 
   // Only render Navbar if the user is authenticated
