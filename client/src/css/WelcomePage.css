@@ -10,6 +10,31 @@
     padding-bottom: 200px;
 }
 
+.logo {
+    display: block;
+    margin: 0 auto 20px;
+    width: 150px; 
+    animation: float 4s ease-in-out infinite;
+}
+
+@keyframes float {
+    0% {
+        transform: translate(0, 0) rotate(0deg); 
+    }
+    25% {
+        transform: translate(50px, -50px) rotate(90deg); 
+    }
+    50% {
+        transform: translate(0, -50px) rotate(180deg);
+    }
+    75% {
+        transform: translate(-50px, -50px) rotate(270deg);
+    }
+    100% {
+        transform: translate(0, 0) rotate(360deg);
+    }
+}
+
 .welcome-title {
     font-size: 2rem;
     margin: 2rem 0;

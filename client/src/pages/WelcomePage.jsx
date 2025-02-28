@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import '../css/WelcomePage.css'; 
+import logo from '../../assets/images/devconnect-remove-name.png'
 
 const WelcomePage = () => {
     const navigate = useNavigate();
@@ -16,7 +17,8 @@ const WelcomePage = () => {
 
     return (
         <div className="welcome-container">
-            <h1 className="welcome-title">Welcome to Dev.connect!</h1>
+            <img src={logo} alt="Dev.Connect Logo" className="logo" />
+            <h1 className="welcome-title">Welcome to Dev.Connect!</h1>
 
             <div className="button-container">
                 <button className="welcome-button" onClick={handleLoginClick}>
