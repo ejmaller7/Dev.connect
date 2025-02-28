@@ -1,7 +1,7 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { useUser } from '../context/Auth.jsx';
-import Logo from '../../assets/images/devconnect.jpg';
+import Logo from '../../assets/images/devconnect-remove-name.png';
 import Searchbar from './Searchbar';
 import '../css/Navbar.css';
 
