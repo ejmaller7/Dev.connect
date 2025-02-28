@@ -106,4 +106,33 @@ router.post("/upload-profile-picture", upload.single("image"), async (req, res) 
     }
 });
 
+router.put("/update-repos", async (req, res) => {
+    try {
+        const { userId, selectedRepositories } = req.body;
+
+        if (!userId) {
+            return res.status(400).json({ message: "User ID is required." });
+        }
+
+        if (selectedRepositories.length > 8) {
+            return res.status(400).json({ message: "You can only select up to 8 repositories." });
+        }
+
+        const updatedUser = await User.findByIdAndUpdate(
+            userId,
+            { selectedRepositories },
+            { new: true }
+        );
+
+        if (!updatedUser) {
+            return res.status(404).json({ message: "User not found." });
+        }
+
+        res.status(200).json({ message: "Repositories updated successfully", user: updatedUser });
+    } catch (error) {
+        console.error("Error updating repositories:", error);
+        res.status(500).json({ message: "Internal server error" });
+    }
+});
+
 export default router;

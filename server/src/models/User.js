@@ -48,6 +48,19 @@ const UserSchema = new mongoose.Schema(
       type: String,
       default: ""
     },
+    selectedRepositories: {
+      type: [
+      {
+        repoName: String,
+        repURL: String,
+        deployedURL: String,
+        description: String,
+        language: String,
+        image: String
+      }
+    ],
+    validate: [arrayLimit, '{PATH} exceeds the limit of 8 repositories'],
+  },
     connections: [
       {
         type: mongoose.Schema.Types.ObjectId,
@@ -57,6 +70,10 @@ const UserSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
+
+function arrayLimit(val) {
+  return val.length <= 8;
+}
 
 // Hash password before saving the user
 UserSchema.pre("save", async function (next) {
