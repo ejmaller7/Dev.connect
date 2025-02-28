@@ -14,7 +14,7 @@
     display: block;
     margin: 0 auto 20px;
     width: 150px; 
-    animation: float 4s ease-in-out infinite;
+    animation: float 6s ease-in-out infinite;
 }
 
 @keyframes float {
