@@ -135,4 +135,13 @@ router.put("/update-repos", async (req, res) => {
     }
 });
 
+router.get("/all", async (_req, res) => {
+    try {
+      const users = await User.find({}, "username _id"); 
+      res.json(users);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to fetch users" });
+    }
+  });
+
 export default router;
