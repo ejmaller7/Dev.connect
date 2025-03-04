@@ -5,8 +5,8 @@ import authMiddleware from "../../utils/authJWT.js";
 const router = express.Router();
 
 router.post("/", authMiddleware, sendPrivateMessage);
+router.get("/users", authMiddleware, getUsersWithMessages); // Move this line before the /:recipientId route
 router.get("/:recipientId", authMiddleware, getPrivateMessages);
 router.delete("/:messageId", authMiddleware, deletePrivateMessage);
-router.get("/users", authMiddleware, getUsersWithMessages);
 
 export default router;
