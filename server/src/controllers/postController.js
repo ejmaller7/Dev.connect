@@ -77,23 +77,37 @@ export const getPrivateMessages = async (req, res) => {
           { recipient: userId }
         ]
       }).populate('sender recipient', 'username profilePicture');
-      
-      const users = messages.map((msg) => 
-        msg.sender._id.toString() === userId.toString() ? msg.recipient : msg.sender
-      );
-      console.log("Messages:", messages);
   
+      if (!messages || messages.length === 0) {
+        return res.status(404).json({ message: "No messages found" });
+      }
+  
+      // Ensure the sender and recipient are defined before proceeding
+      const users = messages.map((msg) => {
+        if (!msg.sender || !msg.recipient) {
+          console.error("Missing sender or recipient in message:", msg);
+          return null;
+        }
+        return msg.sender._id.toString() === userId.toString() ? msg.recipient : msg.sender;
+      }).filter(Boolean); // Remove invalid users from the list
+  
+      console.log("Messages:", messages);
+      console.log("Users:", users);
+  
+      // Remove duplicate users by checking user._id
       const uniqueUsers = users.filter((value, index, self) =>
         index === self.findIndex((t) => t._id.toString() === value._id.toString())
       );
+  
       console.log("Unique Users:", uniqueUsers);
   
       res.json(uniqueUsers);
     } catch (error) {
-        console.error("Error fetching users with messages:", error.message, error.stack);
+      console.error("Error fetching users with messages:", error.message, error.stack);
       res.status(500).json({ message: "Failed to fetch users with messages", error: error.message });
     }
   };
+  
   
   
   

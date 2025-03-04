@@ -11,6 +11,8 @@
 .edit-profile-form {
 display: flex;
 flex-direction: column;
+align-items: center; /* Centers items horizontally */
+justify-content: center;
 }
 
 .edit-profile-form input,
@@ -103,4 +105,58 @@ width: 90%;
 padding: 5px;
 font-size: 12px;
 margin-top: 5px;
+}
+
+@media (prefers-color-scheme: dark) {
+    .edit-profile-container {
+        background: #1E1E1E;
+        color: #fff;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.25);
+    }
+
+    .edit-profile-form input,
+    .edit-profile-form textarea {
+        border: 1px solid #444;
+        background: #2a2a2a;
+        color: #ddd;
+    }
+
+    .edit-profile-form button {
+        background-color: #4C8BF5;
+    }
+
+    .edit-profile-form .cancel-btn {
+        background-color: #6c757d;
+    }
+
+    .edit-profile-form button:hover {
+        background-color: #357abd;
+    }
+
+    .message {
+        color: #76e076; 
+    }
+
+    .repo-selection-grid {
+        margin-top: 20px;
+    }
+
+    .repo-card {
+        background: #2D2D2D;
+        box-shadow: 0px 4px 6px rgba(255, 255, 255, 0.15);
+    }
+
+    .repo-card h4 {
+        color: #fff;
+    }
+
+    .repo-card p {
+        color: #ccc;
+    }
+
+    .repo-card input[type="url"] {
+        background: #444;
+        color: #bbb;
+        border: 1px solid #666;
+    }
 }
