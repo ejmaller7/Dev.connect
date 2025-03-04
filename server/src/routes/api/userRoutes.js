@@ -135,13 +135,82 @@ router.put("/update-repos", async (req, res) => {
     }
 });
 
-router.get("/all", async (_req, res) => {
+router.get("/all-users", async (_req, res) => {
     try {
-      const users = await User.find({}, "username _id"); 
+      const users = await User.find().select("name headline profilePicture"); 
       res.json(users);
     } catch (error) {
       res.status(500).json({ error: "Failed to fetch users" });
     }
-  });
+});
+
+router.get("/:userId/friend-requests", async (req, res) => {
+    try {
+        const { userId } = req.params;
+        const user = await User.findById(userId).populate("friendRequests", "name headline profilePicture");
+
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        res.status(200).json(user.friendRequests || []);
+    } catch (error) {
+        console.error("Error fetching friend requests:", error);
+        res.status(500).json({ message: "Server error" });
+    }
+});
+
+router.post("/send-request", async (req, res) => {
+    try {
+        const { userId, targetUserId } = req.body;
+
+        const user = await User.findById(userId);
+        const targetUser = await User.findById(targetUserId);
+
+        if (!user || !targetUser) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        if (targetUser.friendRequests.includes(userId)) {
+            return res.status(400).json({ message: "Request already sent" });
+        }
+
+        targetUser.friendRequests.push(userId);
+        await targetUser.save();
+
+        res.status(200).json({ message: "Friend request sent" });
+    } catch (error) {
+        res.status(500).json({ message: "Server error" });
+    }
+});
+
+router.post("/accept-request", async (req, res) => {
+    try {
+        const { userId, requesterId } = req.body;
+
+        const user = await User.findById(userId);
+        const requester = await User.findById(requesterId);
+
+        if (!user || !requester) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        if (!user.friendRequests.includes(requesterId)) {
+            return res.status(400).json({ message: "No friend request found" });
+        }
+
+        // Remove from requests and add to connections
+        user.friendRequests = user.friendRequests.filter(id => id.toString() !== requesterId);
+        user.connections.push(requesterId);
+        requester.connections.push(userId);
+
+        await user.save();
+        await requester.save();
+
+        res.status(200).json({ message: "Friend request accepted" });
+    } catch (error) {
+        res.status(500).json({ message: "Server error" });
+    }
+});
 
 export default router;

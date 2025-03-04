@@ -21,6 +21,7 @@ const EditProfile = () => {
   const [githubRepos, setGithubRepos] = useState([]);
   const [selectedRepos, setSelectedRepos] = useState(user?.selectedRepositories || []);
 
+  // Handles all functionality for selecting & deselecting repos
   useEffect(() => {
     if (user?.githubUsername) {
       fetch(`https://api.github.com/users/${user.githubUsername}/repos`)

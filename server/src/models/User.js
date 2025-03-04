@@ -34,7 +34,7 @@ const UserSchema = new mongoose.Schema(
     },
     profilePicture: {
       type: String,
-      default: "",
+      default: "https://cdn5.vectorstock.com/i/1000x1000/99/94/default-avatar-placeholder-profile-icon-male-vector-23889994.jpg",
     },
     githubUsername: {
       type: String,
@@ -66,6 +66,12 @@ const UserSchema = new mongoose.Schema(
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
       },
+    ],
+    friendRequests: [
+      { 
+        type: mongoose.Schema.Types.ObjectId, 
+        ref: "User" 
+      }
     ],
   },
   { timestamps: true }

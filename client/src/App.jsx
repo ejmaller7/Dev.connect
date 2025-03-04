@@ -14,6 +14,7 @@ import EditProfile from './pages/EditProfile.jsx';
 // import MessageBoard from './pages/MessageBoard.jsx'
 import Messages from './pages/Messages.jsx'
 import News from './pages/News.jsx'
+import Network from './pages/Network.jsx';
 
 function App() {
 
@@ -32,6 +33,7 @@ function App() {
         <Route path="/edit-profile" element={<EditProfile />} />
         <Route path="/messages" element={<Messages />} />
         <Route path="/news" element={<News />}/>
+        <Route path='/network' element={<Network />}/>
       </Routes>
       <Footer />
     </Router>
