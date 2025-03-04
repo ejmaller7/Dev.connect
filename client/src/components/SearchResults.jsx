@@ -54,7 +54,7 @@ const SearchResults = () => {
         ? 'https://dev-connect-invw.onrender.com'
         : 'http://localhost:5000';
 
-      const response = await fetch(`${baseURL}/api/user/all`, {
+      const response = await fetch(`${baseURL}/api/user/all-users`, {
         method: 'GET',
         headers: {
           'Accept': 'application/json',
@@ -72,13 +72,13 @@ const SearchResults = () => {
       
       // Filter users based on search term (username or _id)
       const filteredUsers = users.filter(user => 
-        user.username?.toLowerCase().includes(term.toLowerCase()) ||
+        user.name?.toLowerCase().includes(term.toLowerCase()) ||
         user._id?.toLowerCase().includes(term.toLowerCase())
       );
       
       return filteredUsers.map(user => ({
         id: user._id,
-        username: user.username,
+        username: user.name,
         userId: user._id,
         type: 'profile'
       }));
