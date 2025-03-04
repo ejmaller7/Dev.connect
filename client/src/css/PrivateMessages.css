@@ -1,0 +1,114 @@
+.private-messages-container {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    max-width: 400px;
+    margin: 20px auto;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+    background: #ffffff;
+    color: #333333;
+    text-align: center;
+}
+
+.messages-container {
+    max-height: 300px;
+    overflow-y: auto;
+    border: 1px solid #ccc;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    background-color: #e8f7fa;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+}
+
+.message-item {
+    padding: 12px;
+    margin: 10px 0;
+    border-radius: 8px;
+    font-size: 16px;
+    text-align: left;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.sent {
+    background: #d1e7ff;
+    text-align: right;
+}
+
+.received {
+    background: #f1f1f1;
+}
+
+.message-item:hover {
+    background-color: #d1f1f9;
+    transform: translateY(-3px);
+}
+
+.message-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+}
+
+.message-input {
+    width: 80%;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    resize: none;
+}
+
+.send-btn {
+    background-color: #ff7f50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-size: 16px;
+    width: 30%;
+}
+
+.send-btn:hover {
+    background-color: #e66a3c;
+}
+
+@media (prefers-color-scheme: dark) {
+    .private-messages-container {
+        background: #121212;
+        color: #ffffff;
+    }
+    
+    .messages-container {
+        background-color: #1E1E1E;
+        border: 1px solid #444;
+    }
+    
+    .message-item {
+        background-color: #2A2A2A;
+        color: #ffffff;
+    }
+    
+    .message-item:hover {
+        background-color: #333333;
+    }
+    
+    .message-input {
+        background: #1E1E1E;
+        color: #ffffff;
+        border: 1px solid #444;
+    }
+    
+    .send-btn {
+        background-color: #4C8BF5;
+    }
+    
+    .send-btn:hover {
+        background-color: #357ABD;
+    }
+}
+
+  

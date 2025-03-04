@@ -12,7 +12,8 @@ import WelcomePage from './pages/WelcomePage'
 import Profile from './pages/Profile.jsx';
 import EditProfile from './pages/EditProfile.jsx';
 // import MessageBoard from './pages/MessageBoard.jsx'
-import Messages from './pages/Messages.jsx'
+import PrivateMessages from './pages/PrivateMessages.jsx'
+import PrivateMessageConversation from './pages/PrivateMessageConvo.jsx';
 import News from './pages/News.jsx'
 import Network from './pages/Network.jsx';
 
@@ -31,7 +32,8 @@ function App() {
         <Route path="/welcome" element={<WelcomePage />}/>
         <Route path='/profile' element={<Profile />}/>
         <Route path="/edit-profile" element={<EditProfile />} />
-        <Route path="/messages" element={<Messages />} />
+        <Route path="/messages" element={<PrivateMessages />} />
+        <Route path="/messages/:userId" element={<PrivateMessageConversation />} />
         <Route path="/news" element={<News />}/>
         <Route path='/network' element={<Network />}/>
       </Routes>
