@@ -1,113 +1,84 @@
-import PrivateMessage from "../models/Post.js";
+import Message from "../models/Post.js";
 
-export const sendPrivateMessage = async (req, res) => {
-  const { recipientId, content } = req.body;
-  const senderId = req.user._id; 
+// Create a new message
+export const createMessage = async (req, res) => {
+    try {
+        const newMessage = new Message({
+            user: req.user.id,  // Get user ID from auth middleware
+            content: req.body.content,
+        });
 
-  if (!recipientId || !content) {
-    return res.status(400).json({ error: "Recipient and message content are required." });
-  }
+        await newMessage.save();
+        const populatedMessage = await newMessage.populate('user', 'username profilePicture')
 
-  try {
-    const message = new PrivateMessage({
-      sender: senderId,
-      recipient: recipientId,
-      content,
-    });
 
-    await message.save();
-    res.status(201).json(message);
-  } catch (error) {
-    res.status(500).json({ error: "Failed to send message." });
-  }
+        res.json(populatedMessage);
+    } catch (error) {
+        res.status(500).json({ message: "Server error" });
+    }
 };
 
-export const getPrivateMessages = async (req, res) => {
-    const { recipientId } = req.params;
-    const senderId = req.user._id;
-  
-    try {
-      const messages = await PrivateMessage.find({
-        $or: [
-          { sender: senderId, recipient: recipientId },
-          { sender: recipientId, recipient: senderId },
-        ],
-      }).sort({ createdAt: 1 }); 
-  
-      res.json(messages);
-    } catch (error) {
-      res.status(500).json({ error: "Failed to fetch messages." });
-    }
-  };
-  
-  export const deletePrivateMessage = async (req, res) => {
-    const { messageId } = req.params;
-    const userId = req.user._id;
-  
-    try {
-      const message = await PrivateMessage.findById(messageId);
-  
-      if (!message) {
-        return res.status(404).json({ error: "Message not found." });
-      }
-  
-      if (message.sender.toString() !== userId.toString() && message.recipient.toString() !== userId.toString()) {
-        return res.status(403).json({ error: "Not authorized to delete this message." });
-      }
-  
-      await message.deleteOne();
-      res.json({ success: "Message deleted successfully." });
-    } catch (error) {
-      res.status(500).json({ error: "Failed to delete message." });
-    }
-  };
 
-  export const getUsersWithMessages = async (req, res) => {
-    const userId = req.user?._id;
-    console.log(userId)
-  
-    if (!userId) {
-      return res.status(401).json({ message: "User not authenticated" });
-    }
-  
+export const getMessages = async (req, res) => {
     try {
-      const messages = await PrivateMessage.find({
-        $or: [
-          { sender: userId }, 
-          { recipient: userId }
-        ]
-      }).populate('sender recipient', 'username profilePicture');
-  
-      if (!messages || messages.length === 0) {
-        return res.status(404).json({ message: "No messages found" });
-      }
-  
-      // Ensure the sender and recipient are defined before proceeding
-      const users = messages.map((msg) => {
-        if (!msg.sender || !msg.recipient) {
-          console.error("Missing sender or recipient in message:", msg);
-          return null;
-        }
-        return msg.sender._id.toString() === userId.toString() ? msg.recipient : msg.sender;
-      }).filter(Boolean); // Remove invalid users from the list
-  
-      console.log("Messages:", messages);
-      console.log("Users:", users);
-  
-      // Remove duplicate users by checking user._id
-      const uniqueUsers = users.filter((value, index, self) =>
-        index === self.findIndex((t) => t._id.toString() === value._id.toString())
-      );
-  
-      console.log("Unique Users:", uniqueUsers);
-  
-      res.json(uniqueUsers);
+        const messages = await Message.find().populate("user", "username profilePicture").sort({ createdAt: -1 });;
+        res.status(200).json(messages);
     } catch (error) {
-      console.error("Error fetching users with messages:", error.message, error.stack);
-      res.status(500).json({ message: "Failed to fetch users with messages", error: error.message });
+        res.status(500).json({ message: "Server error" });
     }
-  };
-  
-  
-  
-  
+};
+
+export const updateMessage = async (req, res) => {
+    try {
+        const { messageId } = req.params;
+        const { content } = req.body;
+
+        // Find the message by ID
+        const message = await Message.findById(messageId);
+
+        if (!message) {
+            return res.status(404).json({ message: "Message not found" });
+        }
+
+        // Check if the logged-in user is the author of the message
+        if (message.user.toString() !== req.user.id) {
+            return res.status(403).json({ message: "Unauthorized action" });
+        }
+
+        // Update the content
+        message.content = content;
+        await message.save();
+
+        const updatedMessage = await message.populate('user', 'username profilePicture');
+
+        res.status(200).json(updatedMessage);
+    } catch (error) {
+        res.status(500).json({ message: "Server error" });
+    }
+};
+
+// Delete a message
+export const deleteMessage = async (req, res) => {
+    try {
+        const { messageId } = req.params;
+
+        // Find the message by ID
+        const message = await Message.findById(messageId);
+
+        if (!message) {
+            return res.status(404).json({ message: "Message not found" });
+        }
+
+        // Check if the logged-in user is the author of the message
+        if (message.user.toString() !== req.user.id) {
+            return res.status(403).json({ message: "Unauthorized action" });
+        }
+
+        await Message.findByIdAndDelete(messageId);
+
+        res.status(200).json({ message: "Message deleted successfully" });
+    } catch (error) {
+        console.error("Error deleting message:", error);
+        res.status(500).json({ message: "Server error" });
+    }
+};

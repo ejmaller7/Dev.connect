@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useUser } from "../context/Auth";
 import '../css/PrivateMessages.css';
+import defaultProfile from "../../assets/images/BlankProfilePicture.webp"
 
 const API_BASE_URL = import.meta.env.VITE_APP_ENV === "production"
     ? "https://dev-connect-invw.onrender.com"
@@ -87,7 +88,7 @@ const PrivateMessages = () => {
                       onClick={() => handleUserClick(user._id)}
                     >
                       <img
-                        src={user.profilePicture || "default-profile.png"}
+                        src={user.profilePicture && user.profilePicture.trim() !== "" ? user.profilePicture : defaultProfile}
                         alt="Profile"
                         className="profile-picture"
                       />
@@ -111,7 +112,7 @@ const PrivateMessages = () => {
                   onClick={() => handleUserClick(user._id)}
                 >
                   <img
-                    src={user.profilePicture || "default-profile.png"}
+                    src={user.profilePicture && user.profilePicture.trim() !== "" ? user.profilePicture : defaultProfile}
                     alt="Profile"
                     className="profile-picture"
                   />

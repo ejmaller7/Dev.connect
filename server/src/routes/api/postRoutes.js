@@ -1,12 +1,16 @@
 import express from "express";
-import { sendPrivateMessage, getPrivateMessages, deletePrivateMessage, getUsersWithMessages } from "../../controllers/postController.js";
+import { createMessage, getMessages, updateMessage, deleteMessage } from "../../controllers/postController.js";
 import authMiddleware from "../../utils/authJWT.js"; 
 
 const router = express.Router();
 
-router.post("/", authMiddleware, sendPrivateMessage);
-router.get("/users", authMiddleware, getUsersWithMessages); // Move this line before the /:recipientId route
-router.get("/:recipientId", authMiddleware, getPrivateMessages);
-router.delete("/:messageId", authMiddleware, deletePrivateMessage);
+router.post("/message-board", authMiddleware, createMessage);
+
+// Get all messages
+router.get("/message-board", getMessages);
+
+router.put("/message-board/:messageId", authMiddleware, updateMessage);
+
+router.delete("/message-board/:messageId", authMiddleware, deleteMessage);
 
 export default router;

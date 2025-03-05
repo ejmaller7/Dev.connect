@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useUser } from "../context/Auth";
 import { useNavigate } from "react-router-dom";
 import "../css/MessageBoard.css"; 
+import defaultProfile from "../../assets/images/BlankProfilePicture.webp"
 
 const API_BASE_URL = import.meta.env.VITE_APP_ENV === "production"
     ? "https://dev-connect-invw.onrender.com"
@@ -150,7 +151,7 @@ const PostBoard = () => {
               {msg.user.profilePicture && msg.user.profilePicture.trim() !== "" ? (
                 <img src={msg.user.profilePicture} alt="User Profile" className="profile-picture" />
               ) : (
-                <div className="default-profile">❓</div>
+                <img src={defaultProfile} alt="Default Profile" className="default-profile" />
               )}
               <strong className="username">{msg.user?.username || "Unknown User"}</strong>
             </div>

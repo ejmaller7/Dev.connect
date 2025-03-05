@@ -2,8 +2,8 @@ import express from 'express';
 import jobsRoutes from './jobRoutes.js';
 import userRoutes from './userRoutes.js';
 import newsRoutes from './newsRoutes.js';
-import messageRoutes from './messageRoutes.js'
-import privateMessages from './postRoutes.js'
+import messageRoutes from './postRoutes.js'
+import privateMessages from './privateMessageRoutes.js'
 
 const router = express.Router();
 
