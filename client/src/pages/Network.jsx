@@ -1,12 +1,14 @@
 import { useState, useEffect } from "react";
 import { useUser } from "../context/Auth.jsx";
 import "../css/Network.css";
+import BlankProfilePic from '../../assets/images/BlankProfilePicture.webp';
 
 const Network = () => {
     const { user } = useUser() || {};
     const [users, setUsers] = useState([]);
     const [loading, setLoading] = useState(true);
     const [friendRequests, setFriendRequests] = useState([]);
+    const [connections, setConnections] = useState([]);
 
     const getAllUsers = import.meta.env.VITE_APP_ENV === 'production' 
         ? 'https://dev-connect-invw.onrender.com/api/user/all-users' 
@@ -25,17 +27,28 @@ const Network = () => {
         if (!user || !user._id) return;
 
         const showFriendRequests = import.meta.env.VITE_APP_ENV === 'production' 
-            ? `https://dev-connect-invw.onrender.com/api/user/${user._id}/friend-requests`
-            : `http://localhost:5000/api/user/${user._id}/friend-requests`;
+          ? `https://dev-connect-invw.onrender.com/api/user/${user._id}/friend-requests`
+          : `http://localhost:5000/api/user/${user._id}/friend-requests`;
+
+        const showConnections = import.meta.env.VITE_APP_ENV === 'production' 
+          ? `https://dev-connect-invw.onrender.com/api/user/${user._id}/connections`
+          : `http://localhost:5000/api/user/${user._id}/connections`;
 
         fetch(getAllUsers)
-            .then(res => res.json())
-            .then(data => {
-            setUsers(data);
+          .then(res => res.json())
+          .then(data => {
+            const filteredUsers = data.filter(u => !user.connections.includes(u._id) && u._id !== user._id);
+            setUsers(filteredUsers);
             setLoading(false);
-            
-            })
-            .catch(err => console.error("Error fetching users:", err));
+          })
+          .catch(err => console.error("Error fetching users:", err));
+
+        fetch(showConnections)
+          .then(res => res.json())
+          .then(data => {
+            setConnections(data);
+          })
+          .catch(err => console.error("Error fetching connections:", err));
 
         // Get friend requests for logged-in user
         fetch(showFriendRequests)
@@ -95,13 +108,27 @@ const Network = () => {
 
     return (
         <div className="network-container">
+        {/* Display users connections */}
+        <h2>Connections</h2>
+        {connections.length > 0 ? (
+          <div className="connections-list">
+            {connections.map((conn) => (
+              <div key={conn._id} className="connection-card">
+                <img src={conn.profilePicture || `${BlankProfilePic}`} alt={conn.name} />
+                <h3>{conn.name}</h3>
+                <p>{conn.headline || "No headline available"}</p>
+              </div>
+            ))}
+          </div>
+        ) : <p>No connections yet</p>}
+      
         <h2>Find Connections</h2>
         {loading ? <p>Loading...</p> : (
           <div className="users-list">
             {user && users.map((otherUser) => (
             otherUser._id !== user._id && (  // Ensure user doesn’t see themselves
-                <div key={otherUser._id} className="user-card">
-                <img src={otherUser.profilePicture || "default-profile.png"} alt={otherUser.name} className="user-pic" />
+                <div key={otherUser._id} className="connection-card">
+                <img src={otherUser.profilePicture || `${BlankProfilePic}`} alt={otherUser.name} className="user-pic" />
                 <h3>{otherUser.name}</h3>
                 <p>{otherUser.headline || "No headline available"}</p>
                 <button onClick={() => sendFriendRequest(otherUser._id)}>Connect</button>
@@ -116,7 +143,7 @@ const Network = () => {
           <div className="requests-list">
             {friendRequests.map((requester) => (
               <div key={requester._id} className="request-card">
-                <img src={requester.profilePicture} alt="Profile" className="user-pic" />
+                <img src={requester.profilePicture || `${BlankProfilePic}`} alt="Profile" className="user-pic" />
                 <h3>{requester.name}</h3>
                 <p>{requester.headline}</p>
                 <button onClick={() => acceptFriendRequest(requester._id)}>Accept</button>

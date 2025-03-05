@@ -2,45 +2,48 @@
 padding: 20px;
 }
 
-.users-list, .requests-list {
-display: grid;
-grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+/* Layout for cards */
+.users-list, .requests-list, .connections-list {
+display: flex;
+flex-wrap: wrap;
 gap: 15px;
+justify-content: center;
 }
 
-.user-card, .request-card {
-background: #f9f9f9;
-border-radius: 8px;
-box-shadow: 4px 4px 6px rgba(0, 0, 0, 0.1);
+/* Common styling for all connection-type cards */
+.connection-card, .user-card, .request-card {
+background: white;
+border-radius: 10px;
+box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
 text-align: center;
 padding: 15px;
-transition: background-color 0.3s ease, box-shadow 0.3s ease;
+width: 220px; /* ✅ Same width for all cards */
+transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.user-card:hover, .request-card:hover {
-    transform: scale(1.05); 
-    box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.2); 
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    background-color: #f1f1f1; 
+.connection-card:hover, .user-card:hover, .request-card:hover {
+transform: scale(1.05); 
+box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.15); 
 }
 
-.user-pic {
-width: 80px;
+.connection-card img, .user-card img, .request-card img {
+width: 80px; /* ✅ Standardized size */
 height: 80px;
 border-radius: 50%;
+object-fit: cover; /* ✅ Prevents stretching */
 }
 
-.user-card h3, .request-card h3 {
+.connection-card h3, .user-card h3, .request-card h3 {
 font-size: 16px;
 margin: 10px 0;
 }
 
-.user-card p, .request-card p {
+.connection-card p, .user-card p, .request-card p {
 font-size: 14px;
 color: #555;
 }
 
-.user-card button, .request-card button {
+.connection-card button, .user-card button, .request-card button {
 background-color: #007bff;
 color: white;
 padding: 8px 12px;
@@ -50,31 +53,32 @@ cursor: pointer;
 font-size: 14px;
 }
 
-.user-card button:hover, .request-card button:hover {
+.connection-card button:hover, .user-card button:hover, .request-card button:hover {
 background-color: #005a8e;
 }
 
+/* Dark mode adjustments */
 @media (prefers-color-scheme: dark) {
-    .user-card, .request-card {
-        background: #1E1E1E;
-        color: white;
-        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.25);
-    }
+.connection-card, .user-card, .request-card {
+    background: #1E1E1E;
+    color: white;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.25);
+}
 
-    .user-card:hover, .request-card:hover {
-        background-color: #222;
-        box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.35); 
-    }
-    
-    .user-card p, .request-card p {
-        color: #ccc;
-    }
-    
-    .user-card button, .request-card button {
-        background-color: #007bff;
-    }
-    
-    .user-card button:hover, .request-card button:hover {
-        background-color: #357ABD;
-    }
+.connection-card:hover, .user-card:hover, .request-card:hover {
+    background-color: #222;
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.35); 
+}
+
+.connection-card p, .user-card p, .request-card p {
+    color: #ccc;
+}
+
+.connection-card button, .user-card button, .request-card button {
+    background-color: #007bff;
+}
+
+.connection-card button:hover, .user-card button:hover, .request-card button:hover {
+    background-color: #357ABD;
+}
 }
