@@ -32,7 +32,7 @@ export const getPrivateMessages = async (req, res) => {
           { sender: senderId, recipient: recipientId },
           { sender: recipientId, recipient: senderId },
         ],
-      }).sort({ createdAt: -1 }); 
+      }).sort({ createdAt: 1 }); 
   
       res.json(messages);
     } catch (error) {

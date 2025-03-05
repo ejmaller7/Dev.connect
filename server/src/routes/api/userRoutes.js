@@ -137,7 +137,7 @@ router.put("/update-repos", async (req, res) => {
 
 router.get("/all-users", async (_req, res) => {
     try {
-      const users = await User.find().select("name headline profilePicture"); 
+      const users = await User.find().select("name headline profilePicture username"); 
       res.json(users);
     } catch (error) {
       res.status(500).json({ error: "Failed to fetch users" });

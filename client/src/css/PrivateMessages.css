@@ -1,33 +1,12 @@
+
 .private-messages-container {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     max-width: 400px;
     margin: 20px auto;
     padding: 20px;
     border-radius: 10px;
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
-    background: #ffffff;
     color: #333333;
     text-align: center;
-}
-
-.messages-container {
-    max-height: 300px;
-    overflow-y: auto;
-    border: 1px solid #ccc;
-    padding: 15px;
-    border-radius: 8px;
-    margin-bottom: 15px;
-    background-color: #e8f7fa;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
-}
-
-.message-item {
-    padding: 12px;
-    margin: 10px 0;
-    border-radius: 8px;
-    font-size: 16px;
-    text-align: left;
-    transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
 .sent {
@@ -37,11 +16,6 @@
 
 .received {
     background: #f1f1f1;
-}
-
-.message-item:hover {
-    background-color: #d1f1f9;
-    transform: translateY(-3px);
 }
 
 .message-form {
@@ -76,38 +50,158 @@
     background-color: #e66a3c;
 }
 
+.users-list {
+    margin-top: 20px;
+    padding: 10px;
+    border-radius: 8px;
+    background: #f9f9f9;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+}
+
+.user-item {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    margin: 8px 0;
+    border-radius: 8px;
+    background: #ffffff;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.user-item:hover {
+    background-color: #e8f7fa;
+    transform: translateY(-3px);
+}
+
+.profile-picture {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.start-message-btn {
+    background-color: #4C8BF5;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-size: 16px;
+    margin-bottom: 10px;
+    width: 100%;
+    text-align: center;
+}
+
+.start-message-btn:hover {
+    background-color: #357ABD;
+}
+
+.users-dropdown {
+    position: relative;
+    width: 100%;
+}
+
+.users-list-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background: #ffffff;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-height: 200px;
+    overflow-y: auto;
+    display: none;
+    z-index: 1000;
+}
+
+.users-list-dropdown::-webkit-scrollbar {
+    width: 10px;
+  }
+  
+  .users-list-dropdown::-webkit-scrollbar-track {
+    background-color: #f1f1f1;
+    border-radius: 10px;
+  }
+  
+  .users-list-dropdown::-webkit-scrollbar-thumb {
+    background-color: #888;
+    border-radius: 10px;
+    border: 1px solid #f1f1f1;
+  }
+  
+  .users-list-dropdown::-webkit-scrollbar-thumb:hover {
+    background-color: #555;
+  }
+  
+  .users-list-dropdown::-webkit-scrollbar:active {
+    background-color: #999;
+  }
+
+.users-list-dropdown.open {
+    display: block;
+}
+
 @media (prefers-color-scheme: dark) {
     .private-messages-container {
-        background: #121212;
         color: #ffffff;
     }
-    
-    .messages-container {
-        background-color: #1E1E1E;
-        border: 1px solid #444;
-    }
-    
-    .message-item {
-        background-color: #2A2A2A;
-        color: #ffffff;
-    }
-    
-    .message-item:hover {
-        background-color: #333333;
-    }
-    
+
     .message-input {
         background: #1E1E1E;
         color: #ffffff;
         border: 1px solid #444;
     }
-    
+
     .send-btn {
         background-color: #4C8BF5;
     }
-    
+
     .send-btn:hover {
         background-color: #357ABD;
+    }
+
+    .users-list {
+        background: #1E1E1E;
+        border: 1px solid #444;
+    }
+
+    .user-item {
+        background: #2A2A2A;
+        color: #ffffff;
+    }
+
+    .user-item:hover {
+        background-color: #333333;
+    }
+
+    .users-list-dropdown {
+        background: #2A2A2A;
+        color: #ffffff;
+    }
+
+    .users-list-dropdown .user-item {
+        background: #333;
+        color: #ffffff;
+    }
+
+    .users-list-dropdown .user-item:hover {
+        background: #444;
+    }
+}
+
+@media (max-width: 768px) {
+    .private-messages-container {
+        max-width: 90%;
+    }
+
+    .profile-picture {
+        width: 30px;
+        height: 30px;
     }
 }
 

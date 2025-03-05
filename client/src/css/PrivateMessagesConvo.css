@@ -1,0 +1,167 @@
+.message-conversation {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    color: #333333;
+  }
+  
+  .message-conversation h2 {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .messages-list {
+    max-height: 400px;
+    overflow-y: auto;
+    margin-bottom: 20px;
+    padding: 10px;
+    background-color: #e8f7fa;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+  }
+  
+  .messages-list::-webkit-scrollbar {
+    width: 10px;
+  }
+  
+  .messages-list::-webkit-scrollbar-track {
+    background-color: #f1f1f1;
+    border-radius: 10px;
+  }
+  
+  .messages-list::-webkit-scrollbar-thumb {
+    background-color: #888;
+    border-radius: 10px;
+    border: 1px solid #f1f1f1;
+  }
+  
+  .messages-list::-webkit-scrollbar-thumb:hover {
+    background-color: #555;
+  }
+  
+  .messages-list::-webkit-scrollbar:active {
+    background-color: #999;
+  }
+  
+  .message {
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-bottom: 2px;
+    padding-top: 2px;
+    margin: 8px 0;
+    border-radius: 8px;
+    font-size: 16px;
+    word-wrap: break-word;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+  }
+
+  .message-date {
+    font-size: 12px;
+    color: #888;
+    text-align: right;
+    margin-top: 0;
+  }
+  
+  .sent {
+    background-color: #d1e7ff;
+    text-align: right;
+  }
+  
+  .received {
+    background-color: #f1f1f1;
+    text-align: left;
+  }
+  
+  .message:hover {
+    background-color: #d1f1f9;
+    transform: translateY(-3px);
+  }
+  
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+  }
+  
+  textarea {
+    width: 80%;
+    height: 100px;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    resize: none;
+  }
+  
+  button {
+    background-color: #4C8BF5;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-size: 16px;
+  }
+  
+  button:hover {
+    background-color: #357ABD;
+  }
+  
+  @media (prefers-color-scheme: dark) {
+    .message-conversation {
+      background-color: #2a2a2a;
+      color: #ffffff;
+    }
+  
+    .messages-list {
+        background: #1E1E1E;
+    }
+  
+    .message {
+      background-color: #444444;
+      color: #ffffff;
+    }
+
+    .message:hover {
+        background-color: #444;
+        transform: translateY(-3px);
+      }
+  
+    .sent {
+      background-color: #2a2a2a;
+    }
+  
+    .received {
+      background-color: #222;
+    }
+  
+    textarea {
+        background: #1E1E1E;
+        color: #ffffff;
+        border: 1px solid #444;
+    }
+  
+    button {
+      background-color: #4C8BF5;
+    }
+  
+    button:hover {
+      background-color: #357ABD;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .message-conversation {
+      max-width: 90%;
+    }
+  
+    textarea {
+      width: 90%;
+    }
+  }
