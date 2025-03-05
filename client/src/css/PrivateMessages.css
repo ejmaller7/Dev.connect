@@ -50,7 +50,7 @@
     background-color: #e66a3c;
 }
 
-.users-list {
+.users-list-messages {
     margin-top: 20px;
     padding: 10px;
     border-radius: 8px;
@@ -165,7 +165,7 @@
         background-color: #357ABD;
     }
 
-    .users-list {
+    .users-list-messages {
         background: #1E1E1E;
         border: 1px solid #444;
     }

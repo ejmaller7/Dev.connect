@@ -99,7 +99,7 @@ const PrivateMessages = () => {
             )}
           </div>
 
-          <div className="users-list">
+          <div className="users-list-messages">
             <h3>Recent Conversations</h3>
             {usersWithMessages.length === 0 ? (
               <p>No recent conversations.</p>
