@@ -160,6 +160,22 @@ router.get("/:userId/friend-requests", async (req, res) => {
     }
 });
 
+router.get("/:userId/connections", async (req, res) => {
+    try {
+        const { userId } = req.params;
+        const user = await User.findById(userId).populate("connections", "name headline profilePicture");
+
+        if(!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        res.status(200).json(user.connections);
+    } catch (error) {
+        console.error("Error displaying connections:", error);
+        res.status(500).json({ message: "Server error" });
+    }
+});
+
 router.post("/send-request", async (req, res) => {
     try {
         const { userId, targetUserId } = req.body;
@@ -195,20 +211,24 @@ router.post("/accept-request", async (req, res) => {
             return res.status(404).json({ message: "User not found" });
         }
 
-        if (!user.friendRequests.includes(requesterId)) {
-            return res.status(400).json({ message: "No friend request found" });
-        }
-
-        // Remove from requests and add to connections
+        // Remove from friendRequests
         user.friendRequests = user.friendRequests.filter(id => id.toString() !== requesterId);
-        user.connections.push(requesterId);
-        requester.connections.push(userId);
+        requester.friendRequests = requester.friendRequests.filter(id => id.toString() !== userId);
+
+        // Add to connections
+        if (!user.connections.includes(requesterId)) {
+            user.connections.push(requesterId);
+        }
+        if (!requester.connections.includes(userId)) {
+            requester.connections.push(userId);
+        }
 
         await user.save();
         await requester.save();
 
-        res.status(200).json({ message: "Friend request accepted" });
+        res.status(200).json({ message: "Friend request accepted", connections: user.connections });
     } catch (error) {
+        console.error("Error accepting friend request:", error);
         res.status(500).json({ message: "Server error" });
     }
 });
