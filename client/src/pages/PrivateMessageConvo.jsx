@@ -56,7 +56,7 @@ const PrivateMessageConversation = () => {
 
       if (response.ok) {
         const message = await response.json();
-        setMessages((prevMessages) => [message, ...prevMessages]);
+        setMessages((prevMessages) => [...prevMessages, message]);
         setNewMessage("");
       }
     } catch (error) {

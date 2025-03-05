@@ -42,18 +42,6 @@ const NavBar = () => {
             <Link to="/jobs" className="header__link">Jobs</Link>
           </li>
           <li
-            className="category-dropdown"
-            onMouseEnter={() => setIsCategoryHovered(true)}
-            onMouseLeave={() => setIsCategoryHovered(false)}
-          >
-            <Link to="/category" className="header__link">Category</Link>
-            {isCategoryHovered && (
-              <ul className="category-dropdown-menu">
-                {/* Add your category dropdown items here */}
-              </ul>
-            )}
-          </li>
-          <li
             className="profile-dropdown-container"
             onMouseEnter={() => setIsProfileHovered(true)}
             onMouseLeave={() => setIsProfileHovered(false)}
