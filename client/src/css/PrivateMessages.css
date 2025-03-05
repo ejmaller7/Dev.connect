@@ -7,6 +7,7 @@
     border-radius: 10px;
     color: #333333;
     text-align: center;
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
 }
 
 .sent {
@@ -34,7 +35,7 @@
     resize: none;
 }
 
-.send-btn {
+/* .send-btn {
     background-color: #ff7f50;
     color: white;
     padding: 10px 20px;
@@ -48,14 +49,14 @@
 
 .send-btn:hover {
     background-color: #e66a3c;
-}
+} */
 
 .users-list-messages {
     margin-top: 20px;
     padding: 10px;
     border-radius: 8px;
     background: #f9f9f9;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.1);
 }
 
 .user-item {
@@ -67,6 +68,7 @@
     background: #ffffff;
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.3s ease;
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.05);
 }
 
 .user-item:hover {

@@ -111,7 +111,7 @@ const Jobs = () => {
                       <strong>Salary:</strong> ${job.salary_min} - ${job.salary_max} per year
                     </p>
                   )}
-                  <a href={job.apply_url || job.url} target="_blank" rel="noopener noreferrer" className="apply-btn">
+                  <a href={job.apply_url || job.url} target="_blank" rel="noopener noreferrer" className="apply-button">
                     Apply Here
                   </a>
                 </div>

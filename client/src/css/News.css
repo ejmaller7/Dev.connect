@@ -23,10 +23,10 @@
   }
   
   .article-item {
-    background-color: #e8f7fa;
+    background-color: #f1f1f1;
     border-radius: 8px;
     padding: 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 8px 8px rgba(0, 0, 0, 0.2);
     transition: background-color 0.3s ease, transform 0.3s ease;
     display: flex;
     justify-content: center;
@@ -38,7 +38,7 @@
   }
   
   .article-item:hover {
-    background-color: #d1f1f9;
+    background-color: #edfbff;
     transform: translateY(-5px);
   }
   
@@ -59,7 +59,7 @@
   .read-more {
     margin-top: 10px;
     padding: 10px 20px;
-    background-color: #ffb6c1;
+    background-color: #007bff;
     color: white;
     text-decoration: none;
     border-radius: 5px;
@@ -67,7 +67,7 @@
   }
   
   .read-more:hover {
-    background-color: #ff8da0;
+    background-color: #0056b3;
   }
   
   .article-image {

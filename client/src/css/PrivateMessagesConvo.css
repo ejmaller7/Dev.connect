@@ -5,7 +5,7 @@
     padding: 20px;
     border-radius: 10px;
     background-color: #f9f9f9;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
     color: #333333;
   }
   
@@ -19,7 +19,7 @@
     overflow-y: auto;
     margin-bottom: 20px;
     padding: 10px;
-    background-color: #e8f7fa;
+    background-color: #dfdfdf;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
   }
@@ -57,6 +57,7 @@
     font-size: 16px;
     word-wrap: break-word;
     transition: background-color 0.3s ease, transform 0.3s ease;
+    color: #000000;
   }
 
   .message-date {
@@ -67,17 +68,22 @@
   }
   
   .sent {
-    background-color: #d1e7ff;
+    background-color: #f1f1f1;
     text-align: right;
   }
   
   .received {
-    background-color: #f1f1f1;
+    background-color: #d1e7ff;
     text-align: left;
   }
   
-  .message:hover {
-    background-color: #d1f1f9;
+  .sent:hover {
+    background-color: #d3d3d3;
+    transform: translateY(-3px);
+  }
+
+  .received:hover {
+    background-color: #bfe0fc;
     transform: translateY(-3px);
   }
   
@@ -98,9 +104,9 @@
     resize: none;
   }
   
-  button {
-    background-color: #4C8BF5;
-    color: white;
+  .send-button {
+    background-color: #007bff;
+    color: rgb(221, 221, 221);
     padding: 10px 20px;
     border: none;
     border-radius: 5px;

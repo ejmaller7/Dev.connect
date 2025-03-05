@@ -84,7 +84,7 @@ const PrivateMessageConversation = () => {
       </div>
       <form onSubmit={handleSendMessage}>
         <textarea value={newMessage} onChange={(e) => setNewMessage(e.target.value)} placeholder="Type message here..." />
-        <button type="submit">Send</button>
+        <button className="send-button" type="submit">Send</button>
       </form>
     </div>
   );
