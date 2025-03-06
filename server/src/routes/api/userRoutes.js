@@ -106,32 +106,48 @@ router.post("/upload-profile-picture", upload.single("image"), async (req, res) 
     }
 });
 
+router.get("/:userId/repos", async (req, res) => {
+    try {
+        const user = await User.findById(req.params.userId);
+        if (!user) return res.status(404).json({ message: "User not found" });
+
+        console.log("Sending selected repositories:", user.selectedRepositories);
+        res.json({ selectedRepositories: user.selectedRepositories });
+    } catch (error) {
+        console.error("Error fetching repositories:", error);
+        res.status(500).json({ message: "Internal Server Error" });
+    }
+});
+
 router.put("/update-repos", async (req, res) => {
     try {
         const { userId, selectedRepositories } = req.body;
 
         if (!userId) {
-            return res.status(400).json({ message: "User ID is required." });
+            return res.status(400).json({ error: "User ID is required" });
         }
 
-        if (selectedRepositories.length > 8) {
-            return res.status(400).json({ message: "You can only select up to 8 repositories." });
+        const user = await User.findById(userId);
+        if (!user) {
+            return res.status(404).json({ error: "User not found" });
         }
 
-        const updatedUser = await User.findByIdAndUpdate(
-            userId,
-            { selectedRepositories },
-            { new: true }
-        );
+        // Ensure repos are properly structured before saving
+        user.selectedRepositories = selectedRepositories.map(repo => ({
+            name: repo.name,
+            url: repo.url,
+            deployedURL: repo.deployedURL,
+            description: repo.description,
+            language: repo.language,
+            image: repo.image,
+        }));
 
-        if (!updatedUser) {
-            return res.status(404).json({ message: "User not found." });
-        }
+        await user.save();
+        res.json({ message: "Repositories updated successfully", selectedRepositories: user.selectedRepositories });
 
-        res.status(200).json({ message: "Repositories updated successfully", user: updatedUser });
     } catch (error) {
         console.error("Error updating repositories:", error);
-        res.status(500).json({ message: "Internal server error" });
+        res.status(500).json({ error: "Internal Server Error" });
     }
 });
 

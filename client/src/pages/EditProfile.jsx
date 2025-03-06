@@ -23,6 +23,12 @@ const EditProfile = () => {
 
   // Handles all functionality for selecting & deselecting repos
   useEffect(() => {
+    if (!user || !user._id) return;
+
+    const loadRepos = import.meta.env.VITE_APP_ENV === 'production' 
+    ? `https://dev-connect-invw.onrender.com/api/user/${user.id}/repos` 
+    : `http://localhost:5000/api/user/${user._id}/repos`;
+
     if (user?.githubUsername) {
       fetch(`https://api.github.com/users/${user.githubUsername}/repos`)
         .then((res) => res.json())
@@ -40,7 +46,28 @@ const EditProfile = () => {
         })
         .catch((err) => console.error("Error fetching GitHub repos:", err));
     }
-  }, [user?.githubUsername]);
+
+    const fetchSelectedRepos = async () => {
+      try {
+        const response = await fetch(loadRepos);
+        if (!response.ok) throw new Error("Failed to fetch selected repositories");
+
+            const data = await response.json();
+            console.log("Fetched selected repositories:", data.selectedRepositories);
+
+            if (Array.isArray(data.selectedRepositories)) {
+                setSelectedRepos(data.selectedRepositories); // Correctly update state
+            } else {
+                console.error("Invalid format received for repositories.");
+            }
+        } catch (error) {
+            console.error("Error fetching selected repositories:", error);
+        }
+    };
+
+    fetchSelectedRepos();
+
+  }, [user?._id]);
 
   const handleRepoSelect = (repo) => {
     setSelectedRepos((prevRepos) => {
@@ -122,48 +149,59 @@ const EditProfile = () => {
             setMessage("Image upload failed.");
             return;
         }
-    }
+      }
 
-    // Update repositories
-    const repoResponse = await fetch(updateReposURL, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
-      },
-      body: JSON.stringify({
-        userId: user._id,
-        selectedRepositories: selectedRepos,
-      }),
-    });
+      // Update repositories
+      const repoResponse = await fetch(updateReposURL, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
+        },
+        body: JSON.stringify({
+          userId: user._id,
+          selectedRepositories: selectedRepos.map(repo => ({
+              name: repo.name,
+              url: repo.url,
+              deployedURL: repo.deployedURL,
+              description: repo.description,
+              language: repo.language,
+              image: repo.image,
+          })),
+        }),
+      });
 
-    const repoUpdateData = await repoResponse.json();
+      if (!repoResponse.ok) {
+        setMessage("Error updating repositories.");
+        return;
+      }
 
-    if (!repoResponse.ok) {
-      setMessage("Error updating repositories.");
-      return;
-    }
+      const repoUpdateData = await repoResponse.json();
+      console.log("Updated repositories:", repoUpdateData);
 
-    // Update whole Profile
-    const response = await fetch(editProfileURL, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
-      },
-      body: JSON.stringify({ ...formDataToSend, profilePicture: uploadedImageUrl }),
-    });
+      // Update whole Profile
+      const response = await fetch(editProfileURL, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("jwtToken")}`,
+        },
+        body: JSON.stringify({ ...formDataToSend, profilePicture: uploadedImageUrl }),
+      });
 
-    const data = await response.json();
+      const data = await response.json();
+      console.log("Server Response:", data);
 
-    if (response.ok) {
-      setUser({ ...data.user, selectedRepositories: repoUpdateData.user.selectedRepositories });
-      localStorage.setItem("user", JSON.stringify({ ...data.user, selectedRepositories: repoUpdateData.user.selectedRepositories }));
-      setMessage('Profile updated successfully!');
-      setTimeout(() => navigate('/profile'), 1500);
-    } else {
-      setMessage('Error updating profile');
-    }
+      if (response.ok) {
+        
+        setUser({ ...user, selectedRepositories: selectedRepos });
+        localStorage.setItem("user", JSON.stringify({ ...user, selectedRepositories: selectedRepos }));
+        setMessage('Profile updated successfully!');
+        setTimeout(() => navigate('/profile'), 1500);
+
+      } else {
+        setMessage('Error updating profile');
+      }
     } catch (error) {
       console.error('Update error:', error);
       setMessage('Something went wrong, please try again.');
@@ -189,14 +227,12 @@ const EditProfile = () => {
         <h3>Select up to 8 Repositories:</h3>
         <div className="repo-selection-grid">
           {githubRepos.map((repo) => {
-            const isSelected = selectedRepos.some((r) => r.name === repo.name);
-
             return (
-              <div key={repo.id} className={`repo-card ${isSelected ? "selected" : ""}`}>
+              <div key={repo.id} className="repo-card">
                 {/* Checkbox for selection */}
                 <input
                   type="checkbox"
-                  checked={isSelected}
+                  checked={selectedRepos.some((selectedRepo) => selectedRepo.name === repo.name)}
                   onChange={() => handleRepoSelect(repo)}
                   className="repo-checkbox"
                 />

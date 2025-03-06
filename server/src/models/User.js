@@ -51,12 +51,13 @@ const UserSchema = new mongoose.Schema(
     selectedRepositories: {
       type: [
       {
-        repoName: String,
-        repURL: String,
+        name: String,
+        url: String,
         deployedURL: String,
         description: String,
         language: String,
-        image: String
+        image: String,
+        _id: false,
       }
     ],
     validate: [arrayLimit, '{PATH} exceeds the limit of 8 repositories'],
