@@ -9,6 +9,7 @@ const Network = () => {
     const [loading, setLoading] = useState(true);
     const [friendRequests, setFriendRequests] = useState([]);
     const [connections, setConnections] = useState([]);
+    const [sentRequests, setSentRequests] = useState([]);
 
     const getAllUsers = import.meta.env.VITE_APP_ENV === 'production' 
         ? 'https://dev-connect-invw.onrender.com/api/user/all-users' 
@@ -81,8 +82,9 @@ const Network = () => {
 
         body: JSON.stringify({ userId: user._id, targetUserId })
 
-        }).then(() => {
-        alert("Friend request sent!");
+        })
+        .then(() => {
+          setSentRequests([...sentRequests, targetUserId]);
 
         }).catch(err => console.error("Error sending request:", err));
     };
@@ -128,10 +130,15 @@ const Network = () => {
             {user && users.map((otherUser) => (
             otherUser._id !== user._id && (  // Ensure user doesn’t see themselves
                 <div key={otherUser._id} className="connection-card">
-                <img src={otherUser.profilePicture || `${BlankProfilePic}`} alt={otherUser.name} className="user-pic" />
-                <h3>{otherUser.name}</h3>
-                <p>{otherUser.headline || "No headline available"}</p>
-                <button onClick={() => sendFriendRequest(otherUser._id)}>Connect</button>
+                  <img src={otherUser.profilePicture || `${BlankProfilePic}`} alt={otherUser.name} className="user-pic" />
+                  <h3>{otherUser.name}</h3>
+                  <p>{otherUser.headline || "No headline available"}</p>
+                  <button 
+                    onClick={() => sendFriendRequest(otherUser._id)}
+                    disabled={sentRequests.includes(otherUser._id)}
+                  >
+                  {sentRequests.includes(otherUser._id) ? "Pending" : "Connect"}
+                  </button>
                 </div>
             )
             ))}
