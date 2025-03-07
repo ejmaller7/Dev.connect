@@ -120,6 +120,35 @@ const PostBoard = () => {
     }
   };
 
+  const handleLike = async (messageId) => {
+    try {
+      const response = await fetch (`${API_BASE_URL}/api/message-board/like/${messageId}`, {
+        method: "PUT",
+        headers: {
+          "Authorization": `Bearer ${localStorage.getItem("jwtToken")}`,
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setMessages((prevMessages) => {
+          const updatedMessages = prevMessages.map((msg) =>
+              msg._id === messageId ? { ...msg, likes: data.likes, likedBy: data.likedBy } : msg
+          );
+          
+          console.log("Updated messages:", updatedMessages); // ✅ Debugging output
+          
+          return updatedMessages;
+        });
+      } else {
+        console.error("Error liking message");
+      }
+    } catch (error) {
+      console.error("Error liking message", error);
+    }
+  }
+
   return (
     <div className="message-board-container">
       <h2 className="message-board-title">Community Feed</h2>
@@ -158,6 +187,13 @@ const PostBoard = () => {
             <p className="message-text">{msg.content}</p>
             <small className="message-time">{new Date(msg.createdAt).toLocaleString()}</small>
 
+            <button
+              className={`like-btn ${msg.likedBy.includes(user._id) ? "liked" : ""}`}
+              onClick={() => handleLike(msg._id)}
+            >
+              ❤️ {msg.likes}
+            </button>
+  
             {msg.user && user && msg.user._id === user._id && (
               <div className="message-actions">
                 <button onClick={() => handleEditMessage(msg._id)}>Edit</button>

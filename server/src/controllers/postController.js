@@ -82,3 +82,25 @@ export const deleteMessage = async (req, res) => {
         res.status(500).json({ message: "Server error" });
     }
 };
+
+export const likeMessage = async (req, res) => {
+    try {
+        const message = await Message.findById(req.params.id);
+        if (!message) return res.status(404).json({error: "Message not found"})
+        
+        const userId = req.user.id;
+
+        if (message.likedBy.includes(userId)) {
+            message.likedBy = message.likedBy.filter(id => id.toString() !== userId);
+            message.likes -= 1;
+        } else {
+            message.likedBy.push(userId);
+            message.likes += 1;
+        }
+
+        await message.save();
+        res.json({ likes: message.likes, likedBy: message.likedBy})
+    } catch (error) {
+        res.status(500).json({error: "Server error"});
+    }
+};
