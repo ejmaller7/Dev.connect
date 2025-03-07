@@ -28,6 +28,7 @@
   "dependencies": {
     "bcryptjs": "^3.0.2",
     "concurrently": "^9.1.2",
-    "dotenv": "^16.4.7"
+    "dotenv": "^16.4.7",
+    "react-toastify": "^11.0.5"
   }
 }

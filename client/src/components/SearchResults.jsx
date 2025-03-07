@@ -1,17 +1,57 @@
 import React, { useState, useEffect } from 'react';
+import { toast } from 'react-toastify';
 import { useSearchParams, Link } from 'react-router-dom';
 import '../css/SearchResults.css';
+import { useUser } from "../context/Auth.jsx";
 
 const SearchResults = () => {
+  const { user } = useUser() || {};
   const [searchParams] = useSearchParams();
   const [searchResults, setSearchResults] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [selectedItem, setSelectedItem] = useState(null);
-
+  const [sentRequests, setSentRequests] = useState([]);
+  
   const searchTerm = searchParams.get('search');
   const category = searchParams.get('category') || 'all';
   const salarySort = searchParams.get('salary_sort');
+  const sendRequest = import.meta.env.VITE_APP_ENV === 'production' 
+    ? 'https://dev-connect-invw.onrender.com/api/user/send-request' 
+    : 'http://localhost:5000/api/user/send-request';
+
+  // Fetch sent requests when component mounts
+  useEffect(() => {
+    // Only fetch if user is logged in
+    if (user && user._id) {
+      const fetchSentRequests = async () => {
+        try {
+          const baseURL = import.meta.env.VITE_APP_ENV === 'production'
+            ? 'https://dev-connect-invw.onrender.com'
+            : 'http://localhost:5000';
+          
+          const token = localStorage.getItem("jwtToken");
+          if (!token) return;
+          
+          const response = await fetch(`${baseURL}/api/user/sent-requests/${user._id}`, {
+            headers: {
+              'Authorization': `Bearer ${token}`
+            }
+          });
+          
+          if (response.ok) {
+            const data = await response.json();
+            // Assuming the API returns an array of user IDs to whom requests have been sent
+            setSentRequests(data.map(request => request.recipient) || []);
+          }
+        } catch (error) {
+          console.error("Error fetching sent requests:", error);
+        }
+      };
+      
+      fetchSentRequests();
+    }
+  }, [user]);
 
   // Function to fetch jobs data from remoteok API
   const fetchJobsData = async (term, sort) => {
@@ -125,11 +165,13 @@ const SearchResults = () => {
           }))];
         }
 
-        if (category === 'profiles') {
+        if (category === 'profiles' || category === 'all') {
           // Use the new endpoint for profiles
           const profileResults = await fetchProfilesData(searchTerm);
           results = [...results, ...profileResults];
-        } else if (category === 'all' || category === 'messages' || category === 'network') {
+        } 
+        
+        if (category === 'all' || category === 'messages' || category === 'network') {
           // For demo purposes, we'll fetch articles from dev.to for non-job and non-profile categories
           const articleResults = await fetchArticlesData(searchTerm);
           
@@ -203,7 +245,7 @@ const SearchResults = () => {
       case 'network':
         return renderNetworkItem(item);
       case 'profile':
-        return renderProfileItem(item);
+        return renderProfileItem(item, sendFriendRequest);
       default:
         return renderArticleItem(item);
     }
@@ -285,17 +327,96 @@ const SearchResults = () => {
       )}
     </li>
   );
+  
+  const sendFriendRequest = (targetUserId) => {
+    // Check if user is logged in
+    if (!user || !user._id) {
+        toast.error("You must be logged in to send friend requests");
+        return;
+    }
 
-  const renderProfileItem = (profile) => (
-    <li key={profile.id} className={`result-item profile-item ${selectedItem?.id === profile.id && selectedItem?.type === 'profile' ? 'selected' : ''}`} onClick={() => setSelectedItem(selectedItem?.id === profile.id ? null : { id: profile.id, type: 'profile' })}>
-      <h3 className="result-title">{profile.username}</h3>
-      {selectedItem?.id === profile.id && selectedItem?.type === 'profile' && (
-        <div className="result-details">
-          <p className="result-date">User ID: {profile.userId}</p>
+    // Get the JWT token
+    const token = localStorage.getItem("jwtToken");
+    if (!token) {
+        toast.error("Authentication token missing. Please log in again.");
+        return;
+    }
+
+    // Check if already sent
+    if (sentRequests.includes(targetUserId)) {
+        toast.info("Friend request already sent to this user");
+        return;
+    }
+
+    fetch(sendRequest, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify({ userId: user._id, targetUserId })
+    })
+    .then(response => {
+        if (!response.ok) {
+            // Convert the response to text or JSON depending on the API
+            return response.text().then(text => {
+                try {
+                    // Try to parse as JSON
+                    const json = JSON.parse(text);
+                    throw new Error(json.message || "Failed to send friend request");
+                } catch (e) {
+                    // If not JSON, use the raw text
+                    throw new Error(text || "Failed to send friend request");
+                }
+            });
+        }
+        return response.json();
+    })
+    .then(data => {
+        setSentRequests([...sentRequests, targetUserId]);
+        toast.success("Friend request sent!");
+    })
+    .catch(err => {
+        console.error("Error sending request:", err);
+        toast.error(err.message || "Failed to send friend request.");
+    });
+};
+
+  // Update renderProfileItem to show "Already Sent" if request already sent
+  const renderProfileItem = (profile, sendRequest) => {
+    const isSelected = selectedItem?.id === profile.id && selectedItem?.type === 'profile';
+    const alreadySent = sentRequests.includes(profile.userId);
+
+    return (
+      <li 
+        key={profile.id} 
+        className={`result-item profile-item ${isSelected ? 'selected' : ''}`} 
+        onClick={() => setSelectedItem(isSelected ? null : { id: profile.id, type: 'profile' })}
+      >
+        <div className="flex justify-between items-center">
+          <h3 className="result-title">{profile.username}</h3>
+          <button 
+            onClick={(e) => {
+              e.stopPropagation();
+              if (!alreadySent) {
+                sendRequest(profile.userId);
+              }
+            }}
+            className={`${alreadySent ? 'bg-gray-500' : 'bg-blue-500 hover:bg-blue-600'} text-white px-2 py-1 rounded text-sm`}
+            disabled={alreadySent}
+          >
+            {alreadySent ? 'Already Sent' : 'Send Friend Request'}
+          </button>
         </div>
-      )}
-    </li>
-  );
+        
+        {isSelected && (
+          <div className="result-details">
+            <p className="result-date">User ID: {profile.userId}</p>
+          </div>
+        )}
+      </li>
+    );
+  };
 
   return (
     <div className="results-container">
