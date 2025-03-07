@@ -21,14 +21,16 @@ const EditProfile = () => {
   const [githubRepos, setGithubRepos] = useState([]);
   const [selectedRepos, setSelectedRepos] = useState(user?.selectedRepositories || []);
 
-  // Handles all functionality for selecting & deselecting repos
+  
   useEffect(() => {
     if (!user || !user._id) return;
 
+    // Route for loading the saved repositories from your profile into the edit profile page
     const loadRepos = import.meta.env.VITE_APP_ENV === 'production' 
     ? `https://dev-connect-invw.onrender.com/api/user/${user.id}/repos` 
     : `http://localhost:5000/api/user/${user._id}/repos`;
 
+    // Allows you to pull all repositories into the edit profile initially after typing in your github username
     if (user?.githubUsername) {
       fetch(`https://api.github.com/users/${user.githubUsername}/repos`)
         .then((res) => res.json())
@@ -47,6 +49,7 @@ const EditProfile = () => {
         .catch((err) => console.error("Error fetching GitHub repos:", err));
     }
 
+    // Fetches the repos that were selected and displayed in your profile and ensures that those are also selected in your edit profile page
     const fetchSelectedRepos = async () => {
       try {
         const response = await fetch(loadRepos);
@@ -69,6 +72,7 @@ const EditProfile = () => {
 
   }, [user?._id]);
 
+  // Handles the actual selecting of repositories so they are saved to your profile
   const handleRepoSelect = (repo) => {
     setSelectedRepos((prevRepos) => {
       const isAlreadySelected = prevRepos.some((r) => r.name === repo.name);
@@ -84,6 +88,7 @@ const EditProfile = () => {
     });
   };
 
+  // Handles the link that you can place into those repositorie cards
   const handleDeployedLinkChange = (repoName, deployedUrl) => {
     setSelectedRepos(
       selectedRepos.map((repo) =>
@@ -107,6 +112,7 @@ const EditProfile = () => {
     // Keep existing image if no new one is selected
     let uploadedImageUrl = user.profilePicture;
 
+    // All the data that is sent after it is updated
     const formDataToSend = {
       userId: user._id,
       name: formData.name,
@@ -117,6 +123,7 @@ const EditProfile = () => {
       skills: formData.skills,
     };
 
+    // Routes that are being used to upload your profile picture, edit profile, and update repositories
     const uploadProfilePicture = import.meta.env.VITE_APP_ENV === 'production' 
       ? 'https://dev-connect-invw.onrender.com/api/user/upload-profile-picture' 
       : 'http://localhost:5000/api/user/upload-profile-picture';
