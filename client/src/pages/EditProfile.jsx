@@ -55,17 +55,17 @@ const EditProfile = () => {
         const response = await fetch(loadRepos);
         if (!response.ok) throw new Error("Failed to fetch selected repositories");
 
-            const data = await response.json();
-            console.log("Fetched selected repositories:", data.selectedRepositories);
+        const data = await response.json();
+        console.log("Fetched selected repositories:", data.selectedRepositories);
 
-            if (Array.isArray(data.selectedRepositories)) {
-                setSelectedRepos(data.selectedRepositories); // Correctly update state
-            } else {
-                console.error("Invalid format received for repositories.");
-            }
-        } catch (error) {
-            console.error("Error fetching selected repositories:", error);
+        if (Array.isArray(data.selectedRepositories)) {
+            setSelectedRepos(data.selectedRepositories); // Correctly update state
+        } else {
+            console.error("Invalid format received for repositories.");
         }
+      } catch (error) {
+          console.error("Error fetching selected repositories:", error);
+      }
     };
 
     fetchSelectedRepos();
@@ -78,8 +78,10 @@ const EditProfile = () => {
       const isAlreadySelected = prevRepos.some((r) => r.name === repo.name);
   
       if (isAlreadySelected) {
+        // Remove the repo from selectedRepos when unchecked
         return prevRepos.filter((r) => r.name !== repo.name);
       } else if (prevRepos.length < 8) {
+        // Add the repo to selectedRepos when checked (if under the limit)
         return [...prevRepos, repo];
       } else {
         setMessage("You can only select up to 8 repositories.");
@@ -88,10 +90,10 @@ const EditProfile = () => {
     });
   };
 
-  // Handles the link that you can place into those repositorie cards
+  // Handles the link that you can place into those repository cards
   const handleDeployedLinkChange = (repoName, deployedUrl) => {
-    setSelectedRepos(
-      selectedRepos.map((repo) =>
+    setSelectedRepos(prevRepos => 
+      prevRepos.map((repo) =>
         repo.name === repoName ? { ...repo, deployedUrl } : repo
       )
     );
@@ -170,7 +172,7 @@ const EditProfile = () => {
           selectedRepositories: selectedRepos.map(repo => ({
               name: repo.name,
               url: repo.url,
-              deployedURL: repo.deployedURL,
+              deployedUrl: repo.deployedUrl, // Make sure we're using the correct property name
               description: repo.description,
               language: repo.language,
               image: repo.image,
@@ -200,12 +202,24 @@ const EditProfile = () => {
       console.log("Server Response:", data);
 
       if (response.ok) {
+        // Update local user state with the new data including selected repositories
+        setUser({ 
+          ...user, 
+          ...formDataToSend, 
+          profilePicture: uploadedImageUrl,
+          selectedRepositories: selectedRepos 
+        });
         
-        setUser({ ...user, selectedRepositories: selectedRepos });
-        localStorage.setItem("user", JSON.stringify({ ...user, selectedRepositories: selectedRepos }));
+        // Update localStorage with the updated user data
+        localStorage.setItem("user", JSON.stringify({ 
+          ...user, 
+          ...formDataToSend,
+          profilePicture: uploadedImageUrl,
+          selectedRepositories: selectedRepos 
+        }));
+        
         setMessage('Profile updated successfully!');
         setTimeout(() => navigate('/profile'), 1500);
-
       } else {
         setMessage('Error updating profile');
       }
@@ -234,12 +248,14 @@ const EditProfile = () => {
         <h3>Select up to 8 Repositories:</h3>
         <div className="repo-selection-grid">
           {githubRepos.map((repo) => {
+            const isSelected = selectedRepos.some((selectedRepo) => selectedRepo.name === repo.name);
+            
             return (
               <div key={repo.id} className="repo-card">
                 {/* Checkbox for selection */}
                 <input
                   type="checkbox"
-                  checked={selectedRepos.some((selectedRepo) => selectedRepo.name === repo.name)}
+                  checked={isSelected}
                   onChange={() => handleRepoSelect(repo)}
                   className="repo-checkbox"
                 />
@@ -248,13 +264,15 @@ const EditProfile = () => {
                 <h4>{repo.name}</h4>
                 <p>{repo.description}</p>
 
-                {/* Input for deployed link */}
-                <input
-                  type="url"
-                  placeholder="Deployed link"
-                  value={selectedRepos.find((r) => r.name === repo.name)?.deployedUrl || ""}
-                  onChange={(e) => handleDeployedLinkChange(repo.name, e.target.value)}
-                />
+                {/* Only show deployed link input for selected repos */}
+                {isSelected && (
+                  <input
+                    type="url"
+                    placeholder="Deployed link"
+                    value={selectedRepos.find((r) => r.name === repo.name)?.deployedUrl || ""}
+                    onChange={(e) => handleDeployedLinkChange(repo.name, e.target.value)}
+                  />
+                )}
               </div>
             );
           })}
