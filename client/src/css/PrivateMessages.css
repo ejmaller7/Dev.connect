@@ -62,6 +62,7 @@
 .user-item {
     display: flex;
     align-items: center;
+    justify-content: center;
     padding: 10px;
     margin: 8px 0;
     border-radius: 8px;
@@ -72,8 +73,9 @@
 }
 
 .user-item:hover {
-    background-color: #e8f7fa;
-    transform: translateY(-3px);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 8px rgba(0, 0, 0, 0.1);
+    background-color: #f1f1f1;
 }
 
 .profile-picture {
@@ -81,6 +83,13 @@
     height: 40px;
     border-radius: 50%;
     margin-right: 10px;
+}
+
+.private-message-username {
+    color: black;
+    margin-left: 0;
+    margin-right: 0;
+    font-size: 1rem;
 }
 
 .start-message-btn {
@@ -151,12 +160,17 @@
 @media (prefers-color-scheme: dark) {
     .private-messages-container {
         color: #ffffff;
+        box-shadow: 0 8px 8px rgba(0, 0, 0, 0.3);
     }
 
     .message-input {
         background: #1E1E1E;
         color: #ffffff;
         border: 1px solid #444;
+    }
+
+    .private-message-username {
+        color: #ffffff
     }
 
     .send-btn {
@@ -170,6 +184,7 @@
     .users-list-messages {
         background: #1E1E1E;
         border: 1px solid #444;
+        box-shadow: 0 8px 8px rgba(0, 0, 0, 0.2);
     }
 
     .user-item {

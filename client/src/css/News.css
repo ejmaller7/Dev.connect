@@ -38,8 +38,9 @@
   }
   
   .article-item:hover {
-    background-color: #edfbff;
+    /* background-color: #edfbff; */
     transform: translateY(-5px);
+    box-shadow: 0 8px 8px rgba(0, 0, 0, 0.3);
   }
   
   .article-title {
@@ -111,7 +112,7 @@
   
   @media (prefers-color-scheme: dark) {
     .home-container {
-      background-color: #121212;
+      background-color: #282828;
       color: #ffffff;
     }
   
@@ -120,12 +121,12 @@
     }
   
     .article-item {
-      background-color: #1E1E1E;
+      background-color: #1b1b1b;
       color: #ffffff;
     }
   
     .article-item:hover {
-      background-color: #333333;
+      background-color: #1e1e1e;
     }
   
     .article-title {

@@ -92,7 +92,7 @@ const PrivateMessages = () => {
                         alt="Profile"
                         className="profile-picture"
                       />
-                      <span>{user.username}</span>
+                      <span className="private-message-username">{user.username}</span>
                     </div>
                   ))
                 )}
@@ -116,7 +116,7 @@ const PrivateMessages = () => {
                     alt="Profile"
                     className="profile-picture"
                   />
-                  <span>{user.username}</span>
+                  <span className="private-message-username">{user.username}</span>
                 </div>
               ))
             )}

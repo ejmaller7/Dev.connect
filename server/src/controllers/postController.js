@@ -1,3 +1,4 @@
+import mongoose from "mongoose"
 import Message from "../models/Post.js";
 
 // Create a new message
@@ -21,7 +22,7 @@ export const createMessage = async (req, res) => {
 
 export const getMessages = async (req, res) => {
     try {
-        const messages = await Message.find().populate("user", "username profilePicture").sort({ createdAt: -1 });;
+        const messages = await Message.find().populate("user", "username profilePicture").populate("comments.user", "username profilePicture").sort({ createdAt: -1 });;
         res.status(200).json(messages);
     } catch (error) {
         res.status(500).json({ message: "Server error" });
@@ -62,14 +63,12 @@ export const deleteMessage = async (req, res) => {
     try {
         const { messageId } = req.params;
 
-        // Find the message by ID
         const message = await Message.findById(messageId);
 
         if (!message) {
             return res.status(404).json({ message: "Message not found" });
         }
 
-        // Check if the logged-in user is the author of the message
         if (message.user.toString() !== req.user.id) {
             return res.status(403).json({ message: "Unauthorized action" });
         }
@@ -104,3 +103,32 @@ export const likeMessage = async (req, res) => {
         res.status(500).json({error: "Server error"});
     }
 };
+
+export const commentOnMessage = async (req, res) => {
+    try {
+        console.log("Request body:", req.body);
+        console.log("Authenticated user ID:", req.user.id);
+        console.log("testing", req.params)
+        const { id } = req.params;
+        const { text } = req.body;
+        const userId = req.user.id;
+
+        if (!mongoose.Types.ObjectId.isValid(req.user.id)) {
+            return res.status(400).json({ error: "Invalid user ID" });
+        }
+
+        const message = await Message.findById(id);
+        console.log("Message found: ", message)
+        if (!message) return res.status(404).json({ error: "message not found"})
+        
+        const newComment = { user: userId, text, createdAt: new Date() };
+        message.comments.push(newComment);
+        await message.save()
+
+        const populatedMessage = await Message.findById(message._id).populate({ path: "comments.user", select: "username profilePicture", }).populate("user", "username profilePicture");
+        res.json(populatedMessage);
+    } catch (error) {
+        console.error("Error adding comment:", error)
+        res.status(500).json({ error: "Server error"})
+    }
+}
