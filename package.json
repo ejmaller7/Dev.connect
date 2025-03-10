@@ -26,9 +26,14 @@
   },
   "homepage": "https://github.com/ejmaller7/Dev.connect#readme",
   "dependencies": {
+    "@apollo/server": "^4.11.3",
     "bcryptjs": "^3.0.2",
+    "body-parser": "^1.20.3",
     "concurrently": "^9.1.2",
+    "cors": "^2.8.5",
     "dotenv": "^16.4.7",
+    "graphql": "^16.10.0",
+    "graphql-tag": "^2.12.6",
     "react-toastify": "^11.0.5"
   }
 }
