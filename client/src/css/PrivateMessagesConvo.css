@@ -78,13 +78,16 @@
   }
   
   .sent:hover {
-    background-color: #d3d3d3;
+    /* background-color: #d3d3d3; */
     transform: translateY(-3px);
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.1);
+
   }
 
   .received:hover {
-    background-color: #bfe0fc;
+    /* background-color: #bfe0fc; */
     transform: translateY(-3px);
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.1);
   }
   
   form {

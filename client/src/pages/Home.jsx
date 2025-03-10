@@ -13,11 +13,14 @@ const PostBoard = () => {
   const navigate = useNavigate();
   const [messages, setMessages] = useState([]);
   const [message, setMessage] = useState("");
+  const [image, setImage] = useState(null);
+  const [imagePreview, setImagePreview] = useState("");
   const [visibleCount, setVisibleCount] = useState(10);
   const [authChecked, setAuthChecked] = useState(false);
   const [commentTexts, setCommentTexts] = useState({});
   const [showComments, setShowComments] = useState({});  
   const [showCommentForm, setShowCommentForm] = useState({});
+  const [messageError, setMessageError] = useState("");
 
   useEffect(() => {
       if (!authChecked) {
@@ -46,19 +49,44 @@ const PostBoard = () => {
     fetchMessages();
   }, [isAuthenticated]);
 
+
+const handleFileUpload = (e) => {
+  const file = e.target.files[0];
+  if (file) {
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setImage(file); 
+      setImagePreview(reader.result); 
+    };
+    reader.readAsDataURL(file);
+  }
+};
+
   const handleMessageSubmit = async (e) => {
     e.preventDefault();
 
-    if (!message.trim()) return;
+    if (!message.trim() && !image) {
+      setMessageError("Please add a message or an image before posting.");
+      return;
+    }
+  
+    if (!message.trim() && image) {
+      setMessageError("Please add a message with your image.");
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("content", message);
+    if (image) formData.append("image", image);
+    console.log(image, message)
 
     try {
       const response = await fetch(`${API_BASE_URL}/api/message-board`, {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
           "Authorization": `Bearer ${localStorage.getItem("jwtToken")}`,
         },
-        body: JSON.stringify({ content: message }),
+        body: formData,
       });
 
       if (!response.ok) {
@@ -66,7 +94,10 @@ const PostBoard = () => {
         return;
       }
 
+      setMessageError("");
       setMessage("");
+      setImage(null);
+      setImagePreview("")
       const newMessage = await response.json();
       setMessages((prevMessages) => [newMessage, ...prevMessages]);
     } catch (error) {
@@ -209,9 +240,19 @@ const PostBoard = () => {
             onChange={(e) => setMessage(e.target.value)}
             placeholder="Write a message..."
           />
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleFileUpload}
+                className="file-input"
+              />
+              {imagePreview && (
+                <img src={imagePreview} alt="Preview" className="image-preview" />
+              )}
           <button className="post-btn" type="submit">
             Post Message
           </button>
+          {messageError && <p className="post-error-message">{messageError}</p>} 
         </form>
       )}
 
@@ -227,6 +268,11 @@ const PostBoard = () => {
               <strong className="username">{msg.user?.username || "Unknown User"}</strong>
             </div>
             <p className="message-text">{msg.content}</p>
+            {msg.image && (
+    <div className="message-image-wrapper">
+      <img src={`data:image/*;base64,${msg.image}`} alt="Message Image" className="message-image" />
+    </div>
+  )}
             <small className="message-time">{new Date(msg.createdAt).toLocaleString()}</small>
 
             <div className="comments-section">

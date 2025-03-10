@@ -11,8 +11,7 @@ const MessageSchema = new mongoose.Schema({
         required: true 
     },
     image: { 
-        type: String,  // URL of the uploaded image
-        default: null 
+        type: String,   
     },
     createdAt: { 
         type: Date, 

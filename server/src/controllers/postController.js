@@ -1,20 +1,28 @@
 import mongoose from "mongoose"
+import multer from "multer"
 import Message from "../models/Post.js";
+
+const storage = multer.memoryStorage(); 
+const upload = multer({ storage });
 
 // Create a new message
 export const createMessage = async (req, res) => {
     try {
+        console.log("Request Body:", req.body);
+        console.log("Uploaded File:", req.file);
+
         const newMessage = new Message({
-            user: req.user.id,  // Get user ID from auth middleware
+            user: req.user.id,
             content: req.body.content,
+            image: req.file ? req.file.buffer.toString("base64") : null, // Convert image to base64 
         });
 
         await newMessage.save();
-        const populatedMessage = await newMessage.populate('user', 'username profilePicture')
-
+        const populatedMessage = await newMessage.populate("user", "username profilePicture");
 
         res.json(populatedMessage);
     } catch (error) {
+        console.error("Error creating message:", error);
         res.status(500).json({ message: "Server error" });
     }
 };
