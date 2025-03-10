@@ -5,7 +5,6 @@ import dotenv from 'dotenv';
 import { ApolloServer } from '@apollo/server';
 import { expressMiddleware } from '@apollo/server/express4';
 import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default';
-// import bodyParser from 'body-parser';
 import typeDefs from './schema/typeDefs.js';
 import resolvers from './schema/resolvers.js';
 
@@ -24,10 +23,10 @@ app.use(express.json());
 app.use(cors({ origin: '*', credentials: true }));
 // ['https://dev-connect-1-eiz8.onrender.com','http://localhost:5173', 'http://127.0.0.1:5173']
 
-// Initialize Apollo Server (corrected)
+// Initialize Apollo Server
 const server = new ApolloServer({
-  typeDefs,  // Provide typeDefs
-  resolvers, // Provide resolvers
+  typeDefs,
+  resolvers,
   introspection: true,
   plugins: [ ApolloServerPluginLandingPageLocalDefault({ embed: true }) ],
 });
