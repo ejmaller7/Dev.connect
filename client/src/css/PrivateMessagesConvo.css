@@ -167,10 +167,20 @@
   
   @media (max-width: 768px) {
     .message-conversation {
-      max-width: 90%;
+      max-width: 85%;
     }
   
     textarea {
       width: 90%;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .message-conversation {
+      max-width: 85%;
+    }
+
+    .message-conversation h2 {
+      font-size: 20px;
     }
   }

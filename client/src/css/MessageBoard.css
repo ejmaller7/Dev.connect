@@ -488,3 +488,52 @@
         border-color: #357ABD;
     }
 }
+
+@media (max-width: 768px) {
+    .bootstrap-wrapper .form-control {
+        max-width: 85%
+    }
+
+    .bootstrap-wrapper .btn-primary {
+        max-width: 120%;
+        font-size: 12px;
+        padding-right: 35px;
+    }
+}
+
+@media (max-width: 480px) {
+    .message-board-container {
+        padding: 8px;
+        width: 90%
+    }
+
+    .message-board-title {
+        font-size: 20px;
+    }
+
+    .private-messages-btn,
+    .post-btn {
+        width: 40%;
+        font-size: 12px;
+        padding: 12px;
+    }
+    .file-input {
+        width: 35%;
+        height: auto;
+        font-size: 10px;
+    }
+
+    .message-image { 
+        max-height: 150px;  
+      }
+
+    .bootstrap-wrapper .form-control {
+        max-width: 76%
+    }
+
+    .bootstrap-wrapper .btn-primary {
+        max-width: 120%;
+        font-size: 12px;
+        padding-right: 35px;
+    }
+}

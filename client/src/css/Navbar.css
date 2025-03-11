@@ -1,3 +1,4 @@
+/* Default Header Styles */
 .header {
   display: flex;
   align-items: center;
@@ -100,20 +101,44 @@
   color: #007bff;
 }
 
-/* Welcome Message Styles */
+/* Welcome Message */
 .welcome-message {
   margin: 0 1rem;
   font-size: 0.9rem;
   color: #666;
 }
 
-/* Responsive Styles */
-@media (max-width: 968px) {
+@media (max-width: 1200px) {
   .header {
     padding: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
   }
 
   .header__menu {
+    gap: 1.5rem;
+  }
+
+  .header__nav {
+    margin: 0 1rem;
+  }
+}
+
+@media (max-width: 900px) {
+  .header {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .header__nav {
+    width: 100%;
+    text-align: center;
+    margin: 0;
+  }
+
+  .header__menu {
+    flex-wrap: wrap;
+    justify-content: center;
     gap: 1rem;
   }
 
@@ -124,40 +149,39 @@
 
 @media (max-width: 768px) {
   .header {
-    flex-wrap: wrap;
+    flex-direction: column;
+    padding: 1rem;
   }
 
   .header__nav {
-    order: 3;
     width: 100%;
-    margin: 1rem 0 0;
+    margin-top: 0.5rem;
   }
 
   .header__menu {
-    flex-wrap: wrap;
-    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
   }
 
   .category-dropdown-menu,
   .profile-dropdown {
     position: fixed;
-    top: auto;
     bottom: 0;
     left: 0;
     right: 0;
     width: 100%;
     border-radius: 12px 12px 0 0;
     padding: 1rem;
+    text-align: center;
   }
 }
 
-/* Active Link Styles */
 .header__link.active {
   color: #007bff;
   font-weight: 600;
 }
 
-/* Animation for Dropdowns */
 .category-dropdown-menu,
 .profile-dropdown {
   opacity: 0;

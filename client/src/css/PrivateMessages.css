@@ -213,12 +213,18 @@
 
 @media (max-width: 768px) {
     .private-messages-container {
-        max-width: 90%;
+        max-width: 55%;
     }
 
     .profile-picture {
         width: 30px;
         height: 30px;
+    }
+}
+
+@media (max-width: 480px) {
+    .private-messages-container {
+        max-width: 60%;
     }
 }
 
