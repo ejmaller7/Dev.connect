@@ -21,6 +21,7 @@ const PostBoard = () => {
   const [showComments, setShowComments] = useState({});  
   const [showCommentForm, setShowCommentForm] = useState({});
   const [messageError, setMessageError] = useState("");
+  const [url, setUrl] = useState("");
 
   useEffect(() => {
       if (!authChecked) {
@@ -66,7 +67,7 @@ const handleFileUpload = (e) => {
     e.preventDefault();
 
     if (!message.trim() && !image) {
-      setMessageError("Please add a message or an image before posting.");
+      setMessageError("Please add a message or image or url before posting.");
       return;
     }
   
@@ -78,7 +79,8 @@ const handleFileUpload = (e) => {
     const formData = new FormData();
     formData.append("content", message);
     if (image) formData.append("image", image);
-    console.log(image, message)
+    if (url) formData.append("url", url);
+    console.log(image, message, url)
 
     try {
       const response = await fetch(`${API_BASE_URL}/api/message-board`, {
@@ -97,7 +99,8 @@ const handleFileUpload = (e) => {
       setMessageError("");
       setMessage("");
       setImage(null);
-      setImagePreview("")
+      setImagePreview("");
+      setUrl("");
       const newMessage = await response.json();
       setMessages((prevMessages) => [newMessage, ...prevMessages]);
     } catch (error) {
@@ -249,6 +252,13 @@ const handleFileUpload = (e) => {
               {imagePreview && (
                 <img src={imagePreview} alt="Preview" className="image-preview" />
               )}
+              <input
+                type="url"
+                className="url-input"
+                placeholder="Enter a URL (optional)"
+                value={url}
+                onChange={(e) => setUrl(e.target.value)}
+              />
           <button className="post-btn" type="submit">
             Post Message
           </button>
@@ -268,11 +278,18 @@ const handleFileUpload = (e) => {
               <strong className="username">{msg.user?.username || "Unknown User"}</strong>
             </div>
             <p className="message-text">{msg.content}</p>
+            {msg.url && (
+              <p className="message-url">
+              <a href={msg.url} target="_blank" rel="noopener noreferrer">
+                {msg.url}
+              </a>
+              </p>
+              )}
             {msg.image && (
-    <div className="message-image-wrapper">
-      <img src={`data:image/*;base64,${msg.image}`} alt="Message Image" className="message-image" />
-    </div>
-  )}
+            <div className="message-image-wrapper">
+              <img src={`data:image/*;base64,${msg.image}`} alt="Message Image" className="message-image" />
+            </div>
+            )}
             <small className="message-time">{new Date(msg.createdAt).toLocaleString()}</small>
 
             <div className="comments-section">

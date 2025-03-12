@@ -14,7 +14,8 @@ export const createMessage = async (req, res) => {
         const newMessage = new Message({
             user: req.user.id,
             content: req.body.content,
-            image: req.file ? req.file.buffer.toString("base64") : null, // Convert image to base64 
+            image: req.file ? req.file.buffer.toString("base64") : null, // Convert image to base64
+            url: req.body.url, 
         });
 
         await newMessage.save();

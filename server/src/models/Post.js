@@ -13,6 +13,16 @@ const MessageSchema = new mongoose.Schema({
     image: { 
         type: String,   
     },
+    url: {
+        type: String,
+        trim: true,
+        validate: {
+            validator: function (v) {
+                return /^https?:\/\/[^\s$.?#].[^\s]*$/gm.test(v);
+            },
+            message: props => `${props.value} is not a valid URL!`
+        }
+    },
     createdAt: { 
         type: Date, 
         default: Date.now 
