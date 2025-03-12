@@ -10,6 +10,7 @@ const NavBar = () => {
   const navigate = useNavigate();
   const [isCategoryHovered, setIsCategoryHovered] = useState(false);
   const [isProfileHovered, setIsProfileHovered] = useState(false);
+  const [isNavOpen, setIsNavOpen] = useState(false);
   
   const handleLogOut = () => {
     logOut();
@@ -19,27 +20,40 @@ const NavBar = () => {
   // Only render Navbar if the user is authenticated
   if (!isAuthenticated) return null;
 
+  const toggleNav = () => {
+    setIsNavOpen(!isNavOpen); 
+  };
+
+  const closeMenu = () => {
+    setIsNavOpen(false);
+  };
+
   return (
     <header className="header">
       <div className="header__logo-title">
         <Link to="/"><img src={Logo} alt="NullLabsLogo" className="header__logo" /></Link> 
       </div>
-      <nav className="header__nav">
+
+      <button className="menu-toggle" onClick={toggleNav}>
+        ☰
+      </button>
+
+      <nav className={`header__nav ${isNavOpen ? 'active' : ''}`}>
         <ul className="header__menu">
           <li>
-            <Link to="/" className="header__link">Home</Link>
+            <Link to="/" className="header__link" onClick={closeMenu}>Home</Link>
           </li>
           <li>
-            <Link to="/messages" className="header__link">Messages</Link>
+            <Link to="/messages" className="header__link" onClick={closeMenu}>Messages</Link>
           </li>
           <li>
-            <Link to="/network" className="header__link">Network</Link>
+            <Link to="/network" className="header__link" onClick={closeMenu}>Network</Link>
           </li>
           <li>
-            <Link to="/news" className="header__link">News</Link>
+            <Link to="/news" className="header__link" onClick={closeMenu}>News</Link>
           </li>
           <li>
-            <Link to="/jobs" className="header__link">Jobs</Link>
+            <Link to="/jobs" className="header__link" onClick={closeMenu}>Jobs</Link>
           </li>
           <li
             className="profile-dropdown-container"

@@ -1,3 +1,5 @@
+
+
 .search-container {
   display: flex;
   align-items: center;
@@ -107,6 +109,12 @@
     width: 90%;
     font-size: 0.75rem;
     padding: 0.3rem;
+    margin-bottom: 5px;
+  }
+
+  .category-select {
+    margin-top: 10px;
+    margin-bottom: 2px;
   }
 
   .search-button {
