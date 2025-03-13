@@ -23,6 +23,7 @@ const PostBoard = () => {
   const [messageError, setMessageError] = useState("");
   const [url, setUrl] = useState("");
 
+  // Effect for checking user authentication
   useEffect(() => {
       if (!authChecked) {
           setAuthChecked(true);
@@ -31,6 +32,7 @@ const PostBoard = () => {
       }
   }, [isAuthenticated, navigate, authChecked]);
 
+  // Effect to fetch messages when user is authenticated
   useEffect(() => {
     if (!isAuthenticated) return;
 
@@ -50,7 +52,7 @@ const PostBoard = () => {
     fetchMessages();
   }, [isAuthenticated]);
 
-
+// Handles file upload (image selection)
 const handleFileUpload = (e) => {
   const file = e.target.files[0];
   if (file) {
@@ -63,6 +65,7 @@ const handleFileUpload = (e) => {
   }
 };
 
+  // Handles message submission (posting to the board)
   const handleMessageSubmit = async (e) => {
     e.preventDefault();
 
@@ -108,6 +111,7 @@ const handleFileUpload = (e) => {
     }
   };
 
+  // Handles deleting a message
   const handleDeleteMessage = async (messageId) => {
     try {
       const response = await fetch(`${API_BASE_URL}/api/message-board/${messageId}`, {
@@ -128,6 +132,7 @@ const handleFileUpload = (e) => {
     }
   };
 
+  // Handles editing a message
   const handleEditMessage = (messageId) => {
     const newContent = prompt("Edit your message:");
     if (newContent) {
@@ -156,6 +161,7 @@ const handleFileUpload = (e) => {
     }
   };
 
+  // Handles liking a message
   const handleLike = async (messageId) => {
     try {
       const response = await fetch(`${API_BASE_URL}/api/message-board/like/${messageId}`, {
@@ -182,6 +188,7 @@ const handleFileUpload = (e) => {
     }
   };
 
+  // Handles submitting a comment on a message
   const handleCommentSubmit = async (messageId) => {
     if (!commentTexts[messageId]?.trim()) return;
 
@@ -211,6 +218,7 @@ const handleFileUpload = (e) => {
     }
   };
 
+  // Toggles the visibility of comments for a message
   const toggleCommentsVisibility = (messageId) => {
     setShowComments((prev) => ({
       ...prev,
@@ -218,6 +226,7 @@ const handleFileUpload = (e) => {
     }));
   };
 
+  // Toggles the comment form visibility
   const handleToggleCommentForm = (messageId) => {
     setShowCommentForm((prevState) => ({
       ...prevState,

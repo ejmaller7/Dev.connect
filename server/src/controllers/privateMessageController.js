@@ -1,5 +1,6 @@
 import PrivateMessage from "../models/PrivateMessage.js";
 
+// Function to send a private message to another user
 export const sendPrivateMessage = async (req, res) => {
   const { recipientId, content } = req.body;
   const senderId = req.user._id; 
@@ -22,6 +23,7 @@ export const sendPrivateMessage = async (req, res) => {
   }
 };
 
+// Function to get all private messages between the authenticated user and a specific recipient
 export const getPrivateMessages = async (req, res) => {
     const { recipientId } = req.params;
     const senderId = req.user._id;
@@ -40,6 +42,7 @@ export const getPrivateMessages = async (req, res) => {
     }
   };
   
+  // Function to delete a specific private message
   export const deletePrivateMessage = async (req, res) => {
     const { messageId } = req.params;
     const userId = req.user._id;
@@ -62,6 +65,7 @@ export const getPrivateMessages = async (req, res) => {
     }
   };
 
+  // Function to get all users that have sent or received private messages with the authenticated user
   export const getUsersWithMessages = async (req, res) => {
     const userId = req.user?._id;
     console.log(userId)

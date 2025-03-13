@@ -28,7 +28,7 @@ export const createMessage = async (req, res) => {
     }
 };
 
-
+// pull all messages in database
 export const getMessages = async (req, res) => {
     try {
         const messages = await Message.find().populate("user", "username profilePicture").populate("comments.user", "username profilePicture").sort({ createdAt: -1 });;
@@ -38,6 +38,7 @@ export const getMessages = async (req, res) => {
     }
 };
 
+// Update message when edited
 export const updateMessage = async (req, res) => {
     try {
         const { messageId } = req.params;
@@ -91,17 +92,23 @@ export const deleteMessage = async (req, res) => {
     }
 };
 
+// Function to handle liking and unliking a message
 export const likeMessage = async (req, res) => {
     try {
+        // Find the message by its ID
         const message = await Message.findById(req.params.id);
         if (!message) return res.status(404).json({error: "Message not found"})
         
+        // Get the authenticated user's ID
         const userId = req.user.id;
 
+        // Check if the user has already liked the message
         if (message.likedBy.includes(userId)) {
+            // If the message is already liked by the user, unlike it
             message.likedBy = message.likedBy.filter(id => id.toString() !== userId);
             message.likes -= 1;
         } else {
+            // If the message is not liked by the user, like it
             message.likedBy.push(userId);
             message.likes += 1;
         }
@@ -113,6 +120,7 @@ export const likeMessage = async (req, res) => {
     }
 };
 
+// Function to handle commenting on a message
 export const commentOnMessage = async (req, res) => {
     try {
         console.log("Request body:", req.body);
@@ -122,10 +130,12 @@ export const commentOnMessage = async (req, res) => {
         const { text } = req.body;
         const userId = req.user.id;
 
+        // Validate if the user ID is valid
         if (!mongoose.Types.ObjectId.isValid(req.user.id)) {
             return res.status(400).json({ error: "Invalid user ID" });
         }
 
+        // Find the message by its ID
         const message = await Message.findById(id);
         console.log("Message found: ", message)
         if (!message) return res.status(404).json({ error: "message not found"})
@@ -134,6 +144,7 @@ export const commentOnMessage = async (req, res) => {
         message.comments.push(newComment);
         await message.save()
 
+        // Populate the message with user data for the comments and return the updated message
         const populatedMessage = await Message.findById(message._id).populate({ path: "comments.user", select: "username profilePicture", }).populate("user", "username profilePicture");
         res.json(populatedMessage);
     } catch (error) {

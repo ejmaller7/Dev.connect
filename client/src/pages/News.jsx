@@ -11,6 +11,7 @@ const News = () => {
   const [visibleCount, setVisibleCount] = useState(6);  
   const [authChecked, setAuthChecked] = useState(false); 
 
+  // Effect to handle authentication check and redirect to welcome page if not authenticated
   useEffect(() => {
     if (!authChecked) {
       setAuthChecked(true);
@@ -26,7 +27,7 @@ const News = () => {
   ? 'https://dev-connect-invw.onrender.com'
   : 'http://localhost:5000';
 
-
+    // Function to fetch articles from the news API
     const fetchArticles = async () => {
       try {
         const response = await fetch(`${newsURL}/api/news`);

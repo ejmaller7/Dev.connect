@@ -10,6 +10,8 @@ const Jobs = () => {
 
   useEffect(() => {
     console.log('Current jobType:', jobType);
+
+    // Async function to fetch jobs based on jobType
     const fetchJobs = async () => {
       setLoading(true);
       setError(null);
@@ -21,6 +23,7 @@ const Jobs = () => {
         ? 'https://dev-connect-invw.onrender.com'
         : 'http://localhost:5000';
 
+        // Fetch remote jobs if selected
         if (jobType === 'remote' || jobType === 'both') {
           const remoteResponse = await fetch(`${jobsURL}/api/remote-jobs`);
           if (!remoteResponse.ok) throw new Error('Failed to fetch remote jobs');
@@ -28,6 +31,7 @@ const Jobs = () => {
           jobData = [...jobData, ...remoteJobs];
         }
 
+        // Fetch on-site jobs if selected
         if (jobType === 'onsite' || jobType === 'both') {
           const onsiteResponse = await fetch(`${jobsURL}/api/onsite-jobs`);
           console.log("response:", onsiteResponse)
@@ -48,10 +52,12 @@ const Jobs = () => {
     fetchJobs();
   }, [jobType]);
 
+  // Function to handle job item click (to toggle the display of job details)
   const handleJobClick = (job) => {
     setSelectedJob(job === selectedJob ? null : job);
   };
 
+  // Function to format date into a readable format
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     return date.toLocaleDateString();

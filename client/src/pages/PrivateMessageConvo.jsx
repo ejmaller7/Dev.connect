@@ -15,6 +15,7 @@ const PrivateMessageConversation = () => {
   const messagesEndRef = useRef(null);
 
   useEffect(() => {
+    // Function to fetch the messages of the current conversation from the API
     const fetchMessages = async () => {
       const response = await fetch(`${API_BASE_URL}/api/private-messages/${userId}`, {
         headers: {
@@ -39,9 +40,11 @@ const PrivateMessageConversation = () => {
     }
   }, [messages]);
 
+  // Handle sending a new message
   const handleSendMessage = async (e) => {
     e.preventDefault();
 
+    // If the message is empty or just spaces, do not send
     if (!newMessage.trim()) return;
 
     try {
@@ -64,6 +67,7 @@ const PrivateMessageConversation = () => {
     }
   };
 
+  // Format the date of the message to a readable format
   const formatDate = (dateString) => {
     const options = { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' };
     const date = new Date(dateString);

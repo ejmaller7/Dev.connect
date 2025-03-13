@@ -1,17 +1,20 @@
 import fetch from 'node-fetch';
 
+// Function to fetch remote job listings
 export const getRemoteJobs = async (req, res) => {
   const url = 'https://remoteok.com/api';
 
   try {
     console.log('Fetching remote job data from:', url);
 
+    // Fetch the job data from the remote API
     const response = await fetch(url);
     if (!response.ok) throw new Error('Failed to fetch remote job data');
 
     const jobs = await response.json();
     const filteredJobs = Array.isArray(jobs) ? jobs.slice(1) : jobs;
 
+    // Filter the jobs for developer/engineer/software positions
     const developerJobs = filteredJobs.filter(job =>
       job.position && (
         job.position.toLowerCase().includes('developer') ||
@@ -30,10 +33,12 @@ export const getRemoteJobs = async (req, res) => {
   }
 };
 
+// Function to fetch on-site job listings
 export const getOnSiteJobs = async (req, res) => {
   const apiUrl = 'https://findwork.dev/api/jobs/';
 
   try {
+    // Fetch the on-site job data using an API key for authorization
     const response = await fetch(apiUrl, {
       method: 'GET',
       headers: { 'Authorization': `Token ${process.env.ONSITE_JOB_API_KEY}` }
@@ -44,6 +49,7 @@ export const getOnSiteJobs = async (req, res) => {
     const data = await response.json();
     if (!data.results) throw new Error('No results found in API response');
 
+    // Filter the jobs for developer/engineer/software roles
     const developerJobs = data.results.filter(job =>
       job.role && (
         job.role.toLowerCase().includes('developer') ||
@@ -52,6 +58,7 @@ export const getOnSiteJobs = async (req, res) => {
       )
     );
 
+    // Further filter for jobs in the USA location
     const usLocationJobs = developerJobs.filter(job =>
       job.location && (
         job.location.toLowerCase().includes('usa') || 
@@ -60,11 +67,13 @@ export const getOnSiteJobs = async (req, res) => {
       )
     );
 
+    // Filter out remote jobs and only keep on-site jobs
     const onSiteJobs = usLocationJobs.filter(job =>
       job.remote === false && 
       !job.location.toLowerCase().includes('remote')
     );
 
+    // Format the on-site jobs with necessary fields
     const formattedJobs = onSiteJobs.map(job => ({
       id: job.id,
       title: job.role,
@@ -84,6 +93,7 @@ export const getOnSiteJobs = async (req, res) => {
   }
 };
 
+// Function to fetch both remote and on-site job listings and combine them
 export const getAllJobs = async (req, res) => {
   try {
     const remoteJobsResponse = await fetch('https://remoteok.com/api');

@@ -18,6 +18,7 @@ const PrivateMessages = () => {
   useEffect(() => {
     if (!isAuthenticated) return;
 
+    // Function to fetch all users from the server
     const fetchUsers = async () => {
       try {
         const response = await fetch(`${API_BASE_URL}/api/user/all-users`, {
@@ -37,6 +38,7 @@ const PrivateMessages = () => {
       }
     };
 
+    // Function to fetch users who have recent messages
     const fetchUsersWithMessages = async () => {
       try {
         const response = await fetch(`${API_BASE_URL}/api/private-messages/users`, {
@@ -56,10 +58,12 @@ const PrivateMessages = () => {
       }
     };
 
+    // Call both fetch functions
     fetchUsers();
     fetchUsersWithMessages();
   }, [isAuthenticated]);
 
+  // Handle click event when a user is selected to view their messages
   const handleUserClick = (userId) => {
     navigate(`/messages/${userId}`);
     setShowDropdown(false); 
