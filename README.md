@@ -78,5 +78,16 @@ The live version of Dev.Connect is hosted on Render:
 
 ---
 
+## Acknowledgments  
+
+Dev.Connect utilizes third-party APIs to enhance the user experience. Special thanks to:  
+
+- **[RemoteOK API](https://remoteok.io/api)** – for providing remote job listings.  
+- **[Findwork API](https://findwork.dev/api/jobs/)** – for offering additional job search capabilities.  
+
+These APIs help power the job listings feature, ensuring developers have access to a wide range of career opportunities.
+
+---
+
 ## License
 ![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
